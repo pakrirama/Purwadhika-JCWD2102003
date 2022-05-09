@@ -12,6 +12,35 @@
   function tambahFruits(arrFruits) {
     return fruits.push(arrFruits);
   }
+
+  function beliFruits(fruits, keranjang) {
+    let temp = [];
+
+    let buah = prompt("Silahkan nama buah yang ingin dibeli:");
+    // for (let i = 0; i < fruits.length; i++) {
+    //   temp.push(fruits[i][0]);
+    // }
+    fruits.forEach(function (val) {
+      temp.push(val[0]);
+    });
+
+    //check nama buah
+    if (!temp.includes(buah)) {
+      alert("buah tidak ditemukan");
+    }
+    if (!keranjang.includes(buah)) {
+      keranjang.push(buah);
+    }
+  }
+
+  function tampilBuah(fruits) {
+    let infoBuah = "";
+    fruits.forEach((val) => {
+      infoBuah += `Buah ${val[0]} Total Stock ${val[1]} Harga Rp.${val[2]} \n`;
+    });
+    return infoBuah;
+  }
+
   while (pilihan != 5) {
     pilihan = prompt(`
          1. Menampilkan daftar buah2 \n
@@ -22,37 +51,12 @@
 
     //menampilkan isi buah
     if (pilihan == 1) {
-      let infoBuah = "";
-      // for (let i = 0; i < fruits.length; i++) {
-      //   infoBuah += `Buah ${fruits[i][0]} Total Stock ${fruits[i][1]} Harga Rp.${fruits[i][2]} \n`;
-      // }
-
       tambahFruits(["melon", 3, 3000]);
       tambahFruits(["Durian", 3, 3000]);
-      console.log(fruits);
-      fruits.forEach((val) => {
-        infoBuah += `Buah ${val[0]} Total Stock ${val[1]} Harga Rp.${val[2]} \n`;
-      });
-      alert(infoBuah);
+
+      alert(tampilBuah(fruits));
     } else if (pilihan == 2) {
-      let temp = [];
-
-      let buah = prompt("Silahkan nama buah yang ingin dibeli:");
-      // for (let i = 0; i < fruits.length; i++) {
-      //   temp.push(fruits[i][0]);
-      // }
-      fruits.forEach(function (val) {
-        temp.push(val[0]);
-      });
-
-      //check nama buah
-      if (!temp.includes(buah)) {
-        alert("buah tidak ditemukan");
-        continue;
-      }
-      if (!keranjang.includes(buah)) {
-        keranjang.push(buah);
-      }
+      beliFruits(fruits, keranjang);
     } else if (pilihan == 3) {
       //menghapus buah
       let Cart = keranjang.length ? keranjang.join(", ") : "";
