@@ -1,0 +1,71 @@
+<script>
+  let books = ["IPA", "IPS", "MTK"];
+  let pilihan = 0;
+
+  function showBooks(books) {
+    let temp = "Daftar Buku : \n";
+
+    books.forEach((element, index) => {
+      temp += `${index + 1}.  ${element} \n`;
+    });
+
+    return temp;
+  }
+
+  function addBook(books) {
+    let book = prompt(
+      `\n ${showBooks(books)} \n \n Nama buku yang ingin di tambahkan :`
+    );
+    books.push(book);
+    alert(showBooks(books));
+  }
+
+  function deleteBooks(books) {
+    let book = prompt(
+      `\n ${showBooks(books)} \n \n Nama buku yang ingin di hapus :`
+    );
+    if (!books.includes(book)) {
+      alert(`${book} tidak ada dalam daftar buku.`);
+    } else {
+      books.splice(books.indexOf(book), 1);
+    }
+
+    alert(showBooks(books));
+  }
+
+  function editBooks(books) {
+    book = prompt(`\n ${showBooks(books)} \n \n Buku yang ingin di edit :`);
+    bookIndex = books.indexOf(book);
+
+    newBook = prompt(`Buku Baru :`);
+
+    books[bookIndex] = newBook;
+
+    alert(showBooks(books));
+  }
+
+  while (pilihan != 5) {
+    pilihan = prompt(`
+         1. Show Books \n
+         2. Add Books \n 
+         3. Delete Books \n
+         4. Edit Books \n 
+         5. Exit`);
+
+    if (pilihan == 1) {
+      alert(showBooks(books));
+    }
+
+    if (pilihan == 2) {
+      addBook(books);
+    }
+
+    if (pilihan == 3) {
+      deleteBooks(books);
+    }
+
+    if (pilihan == 4) {
+      editBooks(books);
+    }
+  }
+</script>
