@@ -1,0 +1,50 @@
+<script>
+  var kendaraan = prompt("Jenis Kendaraan : \n\n\n input 5 to exit ");
+  var hour = prompt("Lama waktu parkir Jam :");
+  var minutes = prompt("Lama waktu parkir Minutes :");
+
+  var firstHourCar = 4000;
+  var feePerHourCar = 3000;
+  var maxFeeCar = 25000;
+
+  var firstHourMotor = 3000;
+  var feePerHourMotor = 2000;
+  var maxFeeMotor = 20000;
+
+  while (condition) {}
+  function parkirFunction(kendaraan, hour, minutes) {
+    var total = 0;
+    if (kendaraan == "mobil") {
+      if (hour == 1 && minutes > 0) {
+        total = firstHourCar + feePerHourCar;
+      } else if (hour < 1 && minutes <= 10) {
+        total = "Gratis!!";
+      } else if (hour == 1 && minutes == 0) {
+        total = firstHourCar;
+      } else if (hour > 1 && minutes > 0) {
+        total = hour * feePerHourCar + firstHourCar;
+      }
+
+      if (total > maxFeeCar) {
+        total = maxFeeCar;
+      }
+    } else if (kendaraan == "motor") {
+      if (hour == 1 && minutes > 0) {
+        total = firstHourMotor + feePerHourMotor;
+      } else if (hour < 1 && minutes <= 10) {
+        total = "Gratis!!";
+      } else if (hour == 1 && minutes == 0) {
+        total = firstHourMotor;
+      } else if (hour > 1 && minutes > 0) {
+        total = hour * feePerHourMotor + firstHourMotor;
+      }
+
+      if (total > maxFeeMotor) {
+        total = maxFeeMotor;
+      }
+    }
+    alert(`Biaya Parkir : ${total}`);
+  }
+
+  parkirFunction(kendaraan, hour, minutes);
+</script>
