@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latihan Day 3</title>
+</head>
+<body>
+    <script>
+        
+
+        const keranjang = []
+        
+
+        const daftarBuah = [
+            ['Mangga',10,5000],
+            ['Apel',10,6000],
+            ['Melon',10,7000],
+            ['Semangka',10,8000],
+            ['Durian',10,9000]
+        ]
+            
+        while (menu != 5) {
+            var menu = prompt('Pilih Menu : \n 1.Daftar Buah \n 2.Menambah Buah \n 3.Menghapus Buah \n 4.Menghapus Buah \n 5.Exit' )
+            if(menu == 1){
+                alert(daftarBuah.join("\n"))
+            } else if(menu == 2 ){       
+                var buah = []
+                for (let b = 0; b < daftarBuah.length; b++) {
+                        buah.push(daftarBuah[b][0])
+                }
+                var penambahanBuah = prompt('Masukan Buah Ke Keranjang')
+                let check  = buah.includes(penambahanBuah)
+                if(check == true){
+                    if (keranjang.includes(penambahanBuah)) {
+                        alert('Buah sudah ada di Keranjang')
+                    }else{
+                        keranjang.push(penambahanBuah)
+                    }
+                }else{
+                    alert('Buah Tidak Ada!')
+                }
+
+                if (keranjang.length < 1 ) {
+                    alert('Keranjang Kosong')
+                }else{
+                    alert(`Isi keranjang anda : \n ${keranjang}`)
+                }
+            } else if( menu == 3){
+                var hapusBuah = prompt('Masukan Buah Yang Ingin Di Hapus!')
+                idBuah = keranjang.indexOf(hapusBuah)         
+                keranjang.splice(idBuah,1)
+                alert(`Isi keranjang anda : \n ${keranjang}`)
+            }else if( menu == 4){
+                alert(`Buah yang akan dibeli \n ${keranjang}`)
+            }
+        }
+
+
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+
+
+
+Boolean => (True/False)
+
+Comparasion Operators 
+
+    1. > Greater Than
+    2. < Less Than
+    3. >= Greater than or equal to
+    3. <= Less than or equal to
+    4. == Equal to
+    5. === Equal value & Equal Type
+    6. != Not Equal
+    7. !== not equal value type or not equal type 
+
+Logical Operators
+
+    1. && and (keduanya benar,maka True)
+    2. || or (salah satunya benar, maka True)
+    3. ! not (membalik logika True/False)
+
+
+
+    Else If => Need Boolean
+
+    Loop => Need Boleann,Can Repeat

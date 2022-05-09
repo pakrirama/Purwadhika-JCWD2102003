@@ -1,0 +1,7 @@
+let => hanya bisa di Reassignt, tidak bisa re declare
+
+let books = "Buku" => let books = "Buku Tulis"  (Tidak bisa) => Redeclare
+let books = "Buku" =>  books = "Buku Tulis"  (Bisa) => Reassignt
+
+
+const => tidak bisa Reassignt dan tidak bisa Redeclare
