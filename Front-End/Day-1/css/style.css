@@ -3,16 +3,9 @@ body {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-.container {
-  display: grid;
-  grid-template-columns: 65% 35%;
-  height: 100vh;
-}
-
-.detail {
-  display: grid;
-  grid-template-columns: 30% 70%;
+#detail {
   padding: 25% 0 0 0;
+  width: 300px;
 }
 
 .detail img {
@@ -22,7 +15,8 @@ body {
 }
 
 .detail-product {
-  margin-left: 5rem;
+  display: inline-block;
+  width: 37rem;
 }
 
 #color {
