@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Table</title>
+    <style>
+      table,
+      td,
+      th,
+      td {
+        border: 1px solid black;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <table border="1-x solid black">
+      <thead>
+        <!-- table head = menginformasikan bahwa ini sebuah head table -->
+        <tr>
+          <th>No.</th>
+          <th>Name</th>
+          <th>Occupation</th>
+          <th>Gender</th>
+          <th>Age</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- table head = menginformasikan bahwa ini sebuah head table -->
+        <tr>
+          <td>1</td>
+          <td>Jason</td>
+          <td>Software Developer</td>
+          <td>Male</td>
+          <td>20</td>
+          <td>
+            <button onclick="deleteData()">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+
+      <tfoot>
+        <!-- table head = menginformasikan bahwa ini sebuah head table -->
+        <td></td>
+        <td><input type="text" id="tbName" /></td>
+        <td>
+          <select id="tbOcc">
+            <option value="Software Engineer">Software Engineer</option>
+            <option value="Front End">Front End</option>
+            <option value="Back End">Back End</option>
+            <option value="UI/UX">UI/UX</option>
+          </select>
+        </td>
+        <td>
+          <label for="tbGender1">Male</label>
+          <input type="radio" id="tbGender1" value="Male" name="gender" />
+          <label for="tbGender2">Female</label>
+          <input type="radio" id="tbGender2" value="Female" name="gender" />
+        </td>
+        <td><input type="number" id="tbAge" /></td>
+
+        <td>
+          <button onclick="addData()">Add</button>
+        </td>
+      </tfoot>
+    </table>
+
+    <script>
+      const dataPerson = [
+        // new Person("Jason", "Driver", "Pria", 20),
+        new Person("Titus", "Dokter", "Pria", 28),
+        new Person("Alex", "Pro Player", "Pria", 21),
+      ];
+
+      class Person {
+        constructor(name, occ, gender, age) {
+          (this.name = name),
+            (this.occ = occ),
+            (this.gender = gender),
+            (this.age = age);
+        }
+      }
+
+      function addData() {
+        let name = document.getElementById("tbName").value;
+        let occ = document.getElementById("tbOcc").value;
+        let age = parseInt(document.getElementById("tbAge").value);
+        let gender = "";
+        if (document.getElementById("tbGender1").checked) {
+          gender = document.getElementById("tbGender1").value;
+        } else {
+          gender = document.getElementById("tbGender2").value;
+        }
+
+        // let newPerson = new Person(name, occ, gender, age);
+        // dataPerson.push(newPerson);
+        renderData();
+      }
+
+      function deleteData(index) {
+        dataPerson.splice(index, 1);
+        renderData();
+      }
+
+      function renderData() {
+        let htmlResult = "";
+
+        dataPerson.forEach((val, index) => {
+          htmlResult += `
+                 <tr>
+                    <td>${index + 1}</td>
+                    <td>${val.name}</td>
+                    <td>${val.occ}</td>
+                    <td>${val.gender}</td>
+                    <td>${val.age}</td>
+                    <td>
+                        <button onclick="deleteData(${index})">Delete</button>
+                    </td>
+                </tr>
+                `;
+        });
+        document.getElementsByTagName("tbody")[0].innerHTML = htmlResult;
+      }
+
+      renderData();
+    </script>
+  </body>
+</html>

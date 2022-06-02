@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>nomor</h1>
+    <h1>nomor</h1>
+    <h1>nomor</h1>
+    <h1>nomor</h1>
+    <h1>nomor</h1>
+
+    <input type="text" id="txt" />
+    <button onclick="change()">Change</button>
+
+    <script>
+      function change(params) {
+        let arrElement = document.getElementsByTagName("h1");
+        let value = document.getElementById("txt").value;
+
+        arrElement.forEach((element) => {});
+        (val, index) => {
+          arrElement[index].innerHTML = value;
+        };
+      }
+    </script>
+  </body>
+</html>

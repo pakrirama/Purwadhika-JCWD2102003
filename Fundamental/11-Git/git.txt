@@ -1,0 +1,8 @@
+production -> file kita sama dengan apa yang kita upload di web (final product)
+staging -> branch berisikan file2 yang sudah di update
+tasks5-17 -> 
+
+merge => isi dari branch task di gabung ke staging 
+merge => di delete tasks 5-17
+
+

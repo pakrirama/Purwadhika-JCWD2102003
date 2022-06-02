@@ -1,0 +1,335 @@
+<script>
+  let pilihan = 0;
+  const keranjang = [];
+
+  class Product {
+    constructor(name, price, category, stock) {
+      this.name = name;
+      this.price = price;
+      this.category = category;
+      this.stock = stock;
+    }
+  }
+
+  class FastFood extends Product {
+    constructor(name, price, category, stock, expired) {
+      super(name, price, category, stock);
+      this.expired = expired;
+    }
+  }
+  class Cloth extends Product {
+    constructor(name, price, category, stock, size) {
+      super(name, price, category, stock);
+      this.size = size;
+    }
+  }
+  class Electronic extends Product {
+    constructor(name, price, category, stock, warranty) {
+      super(name, price, category, stock);
+      this.warranty = warranty;
+    }
+  }
+  class Fruits extends Product {
+    constructor(name, price, category, stock, sugarLevel) {
+      super(name, price, category, stock);
+      this.sugarLevel = sugarLevel;
+    }
+  }
+
+  function showProduct(products, cat) {
+    let infoProduk = "Products \n";
+
+    for (let i = 0; i < products.length; i++) {
+      if (cat == 1) {
+        if (products[i].category == "Fruit") {
+          infoProduk += `${i + 1}. Nama Produk ${
+            products[i].name
+          }\n Total Stock ${products[i].stock}\n Harga Rp.${products[
+            i
+          ].price.toLocaleString()}\n Sugar Level ${
+            products[i].sugarLevel
+          }\n\n`;
+        }
+      } else if (cat == 2) {
+        if (products[i].category == "Fast Food") {
+          infoProduk += `${i + 1}. Nama Produk ${
+            products[i].name
+          }\n Total Stock ${products[i].stock}\n Harga Rp.${products[
+            i
+          ].price.toLocaleString()}\n Expired ${products[i].expired}\n\n`;
+        }
+      } else if (cat == 3) {
+        if (products[i].category == "Cloth") {
+          infoProduk += `${i + 1}. Nama Produk ${
+            products[i].name
+          }\n Total Stock ${products[i].stock}\n Harga Rp.${products[
+            i
+          ].price.toLocaleString()}\n Size ${products[i].size}\n\n`;
+        }
+      } else if (cat == 4) {
+        if (products[i].category == "Electronic") {
+          infoProduk += `${i + 1}. Nama Produk ${
+            products[i].name
+          }\n Total Stock ${products[i].stock}\n Harga Rp.${products[
+            i
+          ].price.toLocaleString()}\n Warranty ${products[i].warranty}\n\n`;
+        }
+      } else {
+        infoProduk += ` ${i + 1}. Nama Produk ${
+          products[i].name
+        }\n Total Stock ${products[i].stock}\n Harga Rp.${products[
+          i
+        ].price.toLocaleString()}\n\n`;
+      }
+    }
+    return infoProduk;
+  }
+
+  let products = [
+    new Fruits("Apel", 10000, "Fruit", 10, "Low"),
+    new Fruits("Mangga", 11000, "Fruit", 12, "Medium"),
+    new FastFood("MCD", 30000, "Fast Food", 10, 2024),
+    new FastFood("Burger King", 40000, "Fast Food", 20, 2025),
+    new Cloth("Off White", 90000, "Cloth", 3, "XL"),
+    new Cloth("LV", 100000, "Cloth", 5, "L"),
+    new Electronic("TV", 50000, "Electronic", 6, "Yes"),
+    new Electronic("AC", 60000, "Electronic", 9, "No"),
+  ];
+
+  let a = {
+    name: "jordan",
+    age: 100,
+  };
+
+  class hobi {
+    constructor(nama, umur, hobby) {
+      this.nama = nama;
+      this.umur = umur;
+      this.hobby = hobby;
+    }
+  }
+
+  let { name, age } = a;
+
+  new hobi(name, age, "basket");
+
+  function addProductAdmin(products) {
+    let pilihcat = prompt(
+      "Silahkan ketik category produk yang ingin ditambahkan \n1.Fruits\n2.FastFood\n3.Cloth\n4.Electronic"
+    );
+    let { name, price, category, stock, size, sugarLevel, expired, warranty } =
+      products;
+    let produk;
+    name = prompt("Ketik Nama Produk");
+    price = prompt("Ketik Harga Produk");
+    stock = prompt("Ketik Stock Produk");
+
+    if (pilihcat == 1) {
+      //fruits
+      sugarLevel = prompt("Ketik Sugar Level Anda \nLow\nMedium\nHigh");
+      produk = new Fruits(name, price, "Fruit", stock, sugarLevel);
+    } else if (pilihcat == 2) {
+      //Fast Food
+      expired = prompt("Ketik Kapan Fast Food Anda Expired");
+      produk = new FastFood(name, price, "Fast Food", stock, expired);
+    } else if (pilihcat == 3) {
+      //Cloth
+      size = prompt("Ketik Size Cloth Anda \nS\nM\nL\nXL");
+      produk = new Cloth(name, price, "Cloth", stock, size);
+    } else if (pilihcat == 4) {
+      //Electronic
+      warranty = prompt(
+        "Apakah Produk Anda Terdapat Warranty?\nSilahkan Ketik Yes or No"
+      );
+      produk = new Electronic(name, price, "Electronic", stock, warranty);
+    } else {
+      alert("pilihan tidak sesuai");
+      return 0;
+    }
+
+    products.push(produk);
+
+    return alert(showProduct(products, pilihcat));
+  }
+
+  function deleteProductAdmin(products) {
+    let deletedProducts = prompt(
+      "produk apa yang ingin dihapus? \n\n" + showProduct(products)
+    );
+
+    if (
+      !products
+        .map(function (produk) {
+          return produk.name;
+        })
+        .includes(deletedProducts)
+    ) {
+      if (deletedProducts != null) {
+        alert(deletedProducts + " tidak ditemukan");
+      }
+    } else {
+      products.splice(
+        products
+          .map(function (produk) {
+            return produk.name;
+          })
+          .indexOf(deletedProducts),
+        1
+      );
+    }
+
+    alert("Sisa Produk Anda :  \n\n" + showProduct(products));
+  }
+
+  function editStockProductAdmin(products) {
+    let produk = prompt(
+      showProduct(products) + "pilih produk yang ingin anda update stocknya"
+    );
+    let indexProduk = products
+      .map(function (i) {
+        return i.name;
+      })
+      .indexOf(produk);
+    produk = prompt(
+      "silahkan isi stock yang baru pada produk " + products[indexProduk].name
+    );
+
+    products[indexProduk].stock = produk;
+
+    alert(showProduct(products));
+  }
+
+  function addProduct(keranjang, products) {
+    let produk = prompt(
+      "Silahkan ketik nama produk yang ingin dibeli: \n" + showProduct(products)
+    );
+    for (let i = 0; i < products.length; i++) {
+      if (
+        products[i].name == produk &&
+        !keranjang
+          .map(function (i) {
+            return i.name;
+          })
+          .includes(produk)
+      ) {
+        keranjang.push(products[i]);
+      }
+    }
+    alert(
+      keranjang
+        .map(function (produk) {
+          return produk.name;
+        })
+        .join(", ")
+    );
+  }
+  function deleteProducts(keranjang) {
+    let Cart = "";
+    if (keranjang.length) {
+      // apakah array keranjang ada isinya? jika ya maka ..
+      Cart = keranjang
+        .map(function (produk) {
+          return produk.name;
+        })
+        .join(", ");
+    }
+
+    let deletedProducts = prompt(
+      "produk apa yang ingin dihapus? \n Daftar keranjang : " + Cart
+    );
+
+    if (
+      !keranjang
+        .map(function (produk) {
+          return produk.name;
+        })
+        .includes(deletedProducts)
+    ) {
+      if (deletedProducts != null) {
+        alert(deletedProducts + " tidak ditemukan");
+      }
+    } else {
+      keranjang.splice(
+        keranjang
+          .map(function (produk) {
+            return produk.name;
+          })
+          .indexOf(deletedProducts),
+        1
+      );
+    }
+  }
+  function buyProducts(keranjang, products, pilihan) {
+    let qty = 0;
+    let TotalHarga = 0;
+    let show = "";
+
+    for (let i = 0; i < keranjang.length; i++) {
+      qty = prompt(`Berapa qty produk ${keranjang[i].name} yang ingin dibeli?`);
+      show += `Produk ${keranjang[i].name} qty ${qty} @Harga Rp.${keranjang[
+        i
+      ].price.toLocaleString()} Total Rp.${(
+        qty * keranjang[i].price
+      ).toLocaleString()} \n`;
+
+      TotalHarga += qty * keranjang[i].price; // 15000 + 25000
+    }
+
+    let check = prompt(
+      `Apakah Anda Yakin Membeli \n${show}Total Harga : Rp${TotalHarga.toLocaleString()} \n 1. Ya \n 2. No`
+    );
+    if (check == 1) {
+      pilihan = 5;
+    }
+    return pilihan;
+  }
+  //jika pilih 5 maka exit
+
+  while (pilihan != 5) {
+    //balik ke task
+    pilihan = prompt(`
+         1. Menu Admin \n
+         2. Menu User \n `);
+
+    if (pilihan == 1) {
+      pilihan = prompt(`
+         1. Menambahkan Produk \n
+         2. Menghapus Produk \n 
+         3. Edit Product \n
+         5. Exit`);
+
+      //admin menu
+      if (pilihan == 1) {
+        addProductAdmin(products);
+      } else if (pilihan == 2) {
+        deleteProductAdmin(products);
+      } else if (pilihan == 3) {
+        editStockProductAdmin(products);
+      }
+    } else if (pilihan == 2) {
+      pilihan = prompt(`
+         1. Menampilkan daftar produk \n
+         2. Menambah produk \n 
+         3. Menghapus produk \n
+         4. Membeli produk \n 
+         5. Exit`);
+
+      //user menu
+      if (pilihan == 1) {
+        let pilihcat = prompt(
+          "Silahkan ketik category produk yang ingin ditambahkan \n1.Fruits\n2.FastFood\n3.Cloth\n4.Electronic"
+        );
+        alert(showProduct(products, pilihcat));
+      } else if (pilihan == 2) {
+        addProduct(keranjang, products);
+      } else if (pilihan == 3) {
+        deleteProducts(keranjang);
+      } else if (pilihan == 4) {
+        pilihan = buyProducts(keranjang, products, pilihan);
+      }
+    } else {
+      alert("pilih 1 atau 2");
+      continue;
+    }
+  }
+</script>

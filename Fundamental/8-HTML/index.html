@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form</title>
+  </head>
+  <body>
+    <form>
+      <h1>FORM</h1>
+      <label for="nama">Nama :</label><br />
+      <input type="text" name="nama" id="nama" />
+      <br />
+      <label for="nama">Email :</label><br />
+      <input type="text" name="email" id="email" />
+      <br />
+      <label for="password">Password :</label><br />
+      <input type="password" name="password" id="password" />
+      <br />
+      <label for="umur">Umur :</label><br />
+      <input type="number" name="umur" id="umur" />
+      <br />
+      <label for="Alamat">Alamat :</label><br />
+      <textarea name="alamat" id="alamat" cols="30" rows="10"></textarea>
+      <br />
+      <label for="tanggal-lahir">Tanggal Lahir :</label><br />
+      <input type="date" name="tanggallahir" id="tanggallahir" />
+      <br /><br />
+      <button onclick="submitForm()">Submit</button>
+    </form>
+
+    <script>
+      function submitForm() {
+        let nama = document.getElementById("nama");
+        let email = document.getElementById("email");
+        let password = document.getElementById("password");
+        let umur = document.getElementById("umur");
+        let alamat = document.getElementById("alamat");
+        let ttl = document.getElementById("tanggallahir");
+        alert(
+          `Nama :\n${nama.value}\nEmail :\n${email.value}\nPassword :\n${password.value}\nUmur :${umur.value}\nAlamat :\n${alamat.value}\nTanggal Lahir :\n${ttl.value}`
+        );
+        // alert(`${nama.value} ${alamat.value}`);
+      }
+    </script>
+  </body>
+</html>

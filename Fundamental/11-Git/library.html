@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      table,
+      tr,
+      th,
+      td {
+        border: 1px solid pink;
+        text-align: center;
+      }
+      th {
+        background-color: lightcoral;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Book List</h1>
+    <h3>
+      Find Book
+      <input
+        type="text"
+        id="inputFilterTitle"
+        placeholder="search title"
+        onkeyup="renderBooks()"
+      />
+    </h3>
+    <h3>
+      Filter Category
+      <select id="filterCat" onchange="renderBooks()">
+        <option value="all">All</option>
+        <option value="Hiburan">Hiburan</option>
+        <option value="Sejarah">Sejarah</option>
+        <option value="Pelajaran">Pelajaran</option>
+      </select>
+    </h3>
+    <table>
+      <thead>
+        <tr>
+          <th>No.</th>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Pages</th>
+          <th>Price</th>
+          <th>Category</th>
+          <th colspan="3">Action</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+      <tfoot>
+        <td>
+          <!-- Nomor Tabel -->
+        </td>
+        <td>
+          <input type="text" id="title" />
+        </td>
+        <td>
+          <input type="text" id="author" />
+        </td>
+        <td>
+          <input type="number" id="pages" />
+        </td>
+        <td>
+          <input type="number" id="price" />
+        </td>
+        <td>
+          <select id="category" ">
+            <option value="Hiburan">Hiburan</option>
+            <option value="Sejarah">Sejarah</option>
+            <option value="Pelajaran">Pelajaran</option>
+          </select>
+        </td>
+        <td colspan="3">
+          <button onclick="addBook()">Add</button>
+        </td>
+      </tfoot>
+    </table>
+    <br /><br />
+    <h1>Cart</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>No.</th>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Pages</th>
+          <th>Fee</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+      <tfoot>
+        <td colspan="6"><button onclick="addRent()">Rent</button></td>
+      </tfoot>
+    </table>
+    <br /><br />
+    <h1>Rented book list</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>No.</th>
+          <th>Borrower</th>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Pages</th>
+          <th>Return Date</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <script id="renderData">
+      function renderBooks(editIdx) {
+        let filteredBooks = [];
+        arrTemp = Books;
+        let htmlResult = "";
+        filterCategory = document.getElementById('filterCat').value
+        // if (document.getElementById("filterCat").value == "Hiburan") {
+        //   arrTemp = Books.filter((el) => {
+        //     return el.category == "Hiburan";
+        //   });
+        //   console.log("hsohohsohs");
+        // } else if (document.getElementById("filterCat").value == "Pelajaran") {
+        //   arrTemp = Books.filter((el) => {
+        //     return el.category == "Pelajaran";
+        //   });
+        // } else if (document.getElementById("filterCat").value == "Sejarah") {
+        //   arrTemp = Books.filter((el) => {
+        //     return el.category == "Sejarah";
+        //   });
+        // }
+         
+        if (filterCategory !="all") {
+            alert('test')
+            arrTemp=Books.filter( (el) => {
+            return el.category== filterCategory
+          
+          }
+          )
+        }
+
+        console.log(arrTemp);
+        input = document.getElementById("inputFilterTitle").value;
+        arrTemp.forEach((val) => {
+          let isMatch = val.title.toLowerCase().includes(input.toLowerCase());
+          // alert(isMatch);
+          if (isMatch == true) {
+            filteredBooks.push(val);
+          }
+        });
+        console.log(filteredBooks);
+        filteredBooks.forEach((val, idx) => {
+          if (editIdx == idx) {
+            htmlResult += `<tr>
+              <td>${idx + 1}</td>
+
+              <td><input type="text" id="editTitle" value=${val.title} /></td>
+              <td><input type="text" id="editAuthor" value=${val.author} /></td>
+              <td><input type="number" id="editPrice" value=${val.price} /></td>
+              <td><input type="number" id="editPages" value=${val.pages} /></td>
+              <td>
+                  <select id="editCategory">
+                  <option ${
+                    val.category == "FastFood" ? "selected" : ""
+                  } value="FastFood">FastFood</option>
+                  <option  ${
+                    val.category == "Electronic" ? "selected" : ""
+                  }  value="Electronic">Electronic</option>
+                  <option
+                  ${val.category == "Cloth" ? "selected" : ""}
+                  value="Cloth">Cloth</option>
+                  <option
+                  ${val.category == "Fruits" ? "selected" : ""}
+                  value="Fruits">Fruits</option>
+                  </select>
+              </td>
+              <td>
+                  <button onclick="renderBooks()">Cancel</button>
+              </td>
+              <td colspan="2"><button onclick="saveBook(${editIdx})">Save</button></td>
+          </tr>`;
+          } else {
+            htmlResult += `<tr>
+                    <td>${idx + 1}</td>
+                    <td>${val.title}</td>
+                    <td>${val.author}</td>
+                    <td>${val.price}</td>
+                    <td>${val.pages}</td>
+                    <td>${val.category}</td>
+                    <td><button onclick="deleteBook(${idx})">Delete</button></td>
+                    <td><button onclick="addCart(${idx})">Add To Cart</button></td>
+                    <td><button onclick="renderBooks(${idx})">Edit</button></td>
+                </tr>`;
+          }
+        });
+        // }
+        document.getElementsByTagName("tbody")[0].innerHTML = htmlResult;
+
+        console.log(arrTemp);
+        console.log("================arrrtemp");
+        console.log(filteredBooks);
+      }
+
+      function renderCart() {
+        htmlResult = "";
+        Carts.forEach((val, idx) => {
+          htmlResult += `<tr>
+          <td>${idx + 1}</td>
+          <td>${val.title}</td>
+          <td>${val.author}</td>
+          <td>${val.fee}</td>
+          <td>${val.pages}</td>
+          <td><button onclick="deleteCart(${idx})">Delete</button></td>
+        </tr>`;
+        });
+        document.getElementsByTagName("tbody")[1].innerHTML = htmlResult;
+        console.log(Carts);
+      }
+    </script>
+
+    <script>
+      class BooksObj {
+        constructor(title, author, price, pages, category, id) {
+          this.title = title;
+          this.author = author;
+          this.price = price;
+          this.pages = pages;
+          this.category = category;
+        }
+      }
+      class CartObj {
+        constructor(title, author, pages, fee, borrower) {
+          this.title = title;
+          this.author = author;
+          this.pages = pages;
+          this.fee = fee;
+          this.borrower = borrower;
+        }
+      }
+      //Object
+      const Books = [
+        new BooksObj("G30SPKI", "Jason Bahtiar", 146, 100000, "Sejarah"),
+        new BooksObj("Gadjah Mada", "Alex Bayu", 216, 400000, "Sejarah"),
+        new BooksObj("Harry Potter", "J.K Rowling", 452, 200000, "Hiburan"),
+        new BooksObj("Insurgent", "Veronica Roth", 287, 250000, "Hiburan"),
+        new BooksObj("Matematika", "Titus Sakti", 89, 560000, "Pelajaran"),
+        new BooksObj("IPS", "Badra Topan", 97, 720000, "Pelajaran"),
+      ];
+      const Carts = [];
+
+      const Rents = [];
+
+      //Filter
+      // function filter(input) {
+      //     let filteredItems = [];
+      //     for (let i = 0; i < items.length; i++) {
+      //         var item = items[i]
+      //         var namaItem = item[1]
+      //         let isMatch = namaItem
+      //         .toLowerCase()
+      //         .includes(input.toLowerCase());
+      //         if (isMatch == true) {
+      //             filteredItems.push(item);
+      //         }
+      //     }
+      //     return filteredItems;
+      // }
+      function filtera() {
+        filteredBooks = [];
+        input = document.getElementById("inputFilterTitle").value;
+        arrTemp.forEach((val, idxo) => {
+          val.id = idxo;
+          let isMatch = val.title.toLowerCase().includes(input.toLowerCase());
+          if (isMatch == true) {
+            filteredBooks.push(val);
+          }
+        });
+
+        console.log(filteredBooks);
+      }
+
+      //Function
+      function addBook() {
+        newBook = "";
+        let title = document.getElementById("title").value;
+        let author = document.getElementById("author").value;
+        let price = document.getElementById("price").value;
+        let pages = document.getElementById("pages").value;
+        let category = document.getElementById("category").value;
+        newBook = new BooksObj(title, author, price, pages, category);
+        Books.push(newBook);
+        console.log("AddBook");
+        renderBooks();
+
+        document.getElementById("title").value = "";
+        document.getElementById("author").value = "";
+        document.getElementById("price").value = "";
+        document.getElementById("pages").value = "";
+        document.getElementById("category").value = "Hiburan";
+      }
+
+      function deleteBook(id) {
+        Books.splice(id, 1);
+        renderBooks();
+        console.log("delete" + id);
+      }
+
+      function saveBook(idx) {
+        let title = document.getElementById("editTitle").value;
+        let author = document.getElementById("editAuthor").value;
+        let pages = document.getElementById("editPages").value;
+        let price = document.getElementById("editPrice").value;
+        let category = document.getElementById("editCategory").value;
+
+        Books[idx].title = title;
+        Books[idx].author = author;
+        Books[idx].pages = pages;
+        Books[idx].price = price;
+
+        renderBooks();
+      }
+      function addCart(idx) {
+        let { title, author, pages } = arrTemp[idx];
+        weeks = prompt("berapa minggu");
+        borrower = prompt("Masukan nama peminjam :");
+        fee = Books[idx].price * weeks;
+        newCart = new CartObj(title, author, pages, fee, borrower);
+        Carts.push(newCart);
+        renderCart();
+      }
+
+      function deleteCart(idx) {
+        console.log("deleteCart");
+        Carts.splice(idx, 1);
+        renderCart();
+      }
+
+      // [ {name: “Ironman”, franchise: “Marvel”}, {name: “Thor”, franchise: “Marvel”} ]
+      renderCart();
+      renderBooks();
+    </script>
+  </body>
+</html>

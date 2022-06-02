@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      table,
+      tr,
+      th,
+      td {
+        border: 1px solid black;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Product List</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Category</th>
+          <th>Stock</th>
+          <th colspan="3">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1.</td>
+          <td>Jeruk</td>
+          <td>10.000</td>
+          <td>Fruits</td>
+          <td>10</td>
+          <td>
+            <button>Delete</button>
+          </td>
+          <td>
+            <button>Add Stock</button>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <!-- table head = menginformasikan bahwa ini sebuah head table -->
+        <td></td>
+        <td><input type="text" id="tbName" /></td>
+        <td><input type="number" id="tbPrice" /></td>
+        <td>
+          <select id="tbCat">
+            <option value="FastFood">FastFood</option>
+            <option value="Electronic">Electronic</option>
+            <option value="Cloth">Cloth</option>
+            <option value="Fruits">Fruits</option>
+          </select>
+        </td>
+        <td><input type="number" id="tbStock" /></td>
+
+        <td>
+          <button onclick="addData()">Add</button>
+        </td>
+      </tfoot>
+    </table>
+
+    <br />
+    <h1>Cart</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Category</th>
+          <th>Qty</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- <tr>
+          <td id="idxCart"></td>
+          <td id="productCart">Jeruk</td>
+          <td id="priceCart">10.000</td>
+          <td id="categoryCart">Fruits</td>
+          <td id="qtyCart">10</td>
+          <td>
+            <button onclick="">Add</button>
+          </td>
+        </tr> -->
+      </tbody>
+    </table>
+    <h3 id="bill">Total Bill : 0</h3>
+    <script>
+      // Initial Variabel
+      let menu = 0;
+      let pilihan = 0;
+
+      const keranjang = [];
+
+      //Class
+      class Product {
+        constructor(name, price, stock) {
+          this.name = name;
+          this.price = price;
+          this.stock = stock;
+        }
+      }
+
+      class FastFood extends Product {
+        constructor(name, price, stock, expired) {
+          super(name, price, stock);
+          this.expired = expired;
+          this.category = "FastFood";
+        }
+      }
+
+      class Cloth extends Product {
+        constructor(name, price, stock, size) {
+          super(name, price, stock);
+          this.size = size;
+          this.category = "Cloth";
+        }
+      }
+
+      class Electronic extends Product {
+        constructor(name, price, stock, waranty) {
+          super(name, price, stock);
+          this.waranty = waranty;
+          this.category = "Electronic";
+        }
+      }
+
+      class Fruits extends Product {
+        constructor(name, price, stock, sugarLevel, id) {
+          super(name, price, stock);
+          this.sugarLevel = sugarLevel;
+          this.category = "Fruits";
+        }
+      }
+
+      class Cart {
+        constructor(name, price, category, qty, id) {
+          this.name = name;
+          this.price = price;
+          this.category = category;
+          this.qty = qty;
+          this.id = id;
+        }
+      }
+
+      //Object Produk Kategori
+      const productObj = [
+        new FastFood("Sabanna", 8000, 10, 1),
+        new FastFood("DeKriuk", 9000, 20, 1),
+        new Cloth("H&M", 80000, 10),
+        new Cloth("Nudie", 1000000, 4),
+        new Electronic("Kulkas", 3000000, 2, "Yes"),
+        new Electronic("Kulkas", 3000000, 2, "Yes"),
+        new Fruits("Apel", 10000, 10, "Medium"),
+        new Fruits("Mangga", 5000, 5, "Medium"),
+      ];
+
+      const cartObj = [];
+
+      function addData() {
+        let name = document.getElementById("tbName").value;
+        let price = document.getElementById("tbPrice").value;
+        let category = document.getElementById("tbCat").value;
+        let stock = document.getElementById("tbStock").value;
+        // let name = prompt("Masukan nama Produk");
+        // let price = prompt("Masukan Harga Produk : ");
+        // let category = prompt("Masukan Kategori Produk :");
+        // let stock = prompt("Masukan Stok Kategori : ");
+
+        newProduct = "";
+        if (category == "FastFood") {
+          newProduct = new FastFood(name, price, stock);
+          console.log("masuk");
+        } else if (category == "Cloth") {
+          newProduct == new Cloth(name, price, stock);
+        } else if (category == "Electronic") {
+          newProduct = new Electronic(name, price, stock);
+        } else if (category == "Fruits") {
+          newProduct = new Fruits(name, price, stock);
+        }
+        productObj.push(newProduct);
+        console.log(newProduct);
+        console.log(productObj);
+        renderData();
+        document.getElementById("tbName").value = "";
+        document.getElementById("tbPrice").value = "";
+        document.getElementById("tbCat").value = "";
+        document.getElementById("tbStock").value = 0;
+      }
+
+      function deleteData(index) {
+        productObj.splice(index, 1);
+        renderData();
+      }
+
+      function deleteCart(index) {
+        bill -= cartObj[index].price * parseInt(cartObj[index].qty);
+        console.log(productObj);
+        productObj[cartObj[index].id].stock += parseInt(cartObj[index].qty);
+        console.log(productObj[cartObj[index].id].stock);
+
+        cartObj.splice(index, 1);
+        renderCart();
+        renderData();
+        total();
+      }
+
+      function addToCart(index) {
+        produkDipilih = productObj[index].name;
+        qty = prompt(
+          `Masukan jumlah ${produkDipilih} yang akan di tambhakan : `
+        );
+        let { name, price, category } = productObj[index];
+        let newCart = new Cart(name, price, category, qty, index);
+        sisaStock = productObj[index].stock - qty;
+        if (sisaStock >= 0) {
+          productObj[index].stock = sisaStock;
+          cartObj.push(newCart);
+        } else {
+          alert(`Maaf stock ${produkDipilih} tidak mencukupi`);
+        }
+        console.log(cartObj);
+        renderCart();
+        renderData();
+        total();
+      }
+
+      //Render Data
+      function renderData(editIndex) {
+        let htmlResult = "";
+        productObj.forEach((val, index) => {
+          if (editIndex == index) {
+            htmlResult += `<tr>
+          <td>
+            <td>${index + 1}</td>
+          </td>
+          <td>
+            <input type="text" id="editName" value=${val.name} />
+          </td>
+          <td>
+              <input type="text" id="editPrice" value=${val.price} />
+          </td>
+          <td>
+             <select id="editCategory">
+              <option ${
+                val.category == "FastFood" ? "selected" : ""
+              } value="FastFood">FastFood</option>
+              <option  ${
+                val.category == "Electronic" ? "selected" : ""
+              }  value="Electronic">Electronic</option>
+              <option
+               ${val.category == "Cloth" ? "selected" : ""}
+              value="Cloth">Cloth</option>
+              <option
+               ${val.category == "Fruits" ? "selected" : ""}
+              value="Fruits">Fruits</option>
+            </select>
+          </td>
+          <td>
+            <input type="number" id="editStock" value="${val.stock}"/>
+          </td>
+
+          <td>
+            <button onclick="renderData()">Cancel</button>
+            <button onclick="saveData(${editIndex})">Save</button>
+          </td>
+        </tr>`;
+          } else {
+            htmlResult += `
+                         <tr>
+                            <td>${index + 1}</td>
+                            <td>${val.name}</td>
+                            <td> Rp. ${parseInt(
+                              val.price
+                            ).toLocaleString()}</td>
+                            <td>${val.category}</td>
+                            <td>${val.stock}</td>
+                            <td>
+                                <button onclick="deleteData(${index})">Delete</button>
+                            </td>
+                            <td>
+                                <button onclick="addToCart(${index})">Add to Cart</button>
+                            </td>
+                            <td>
+                                <button onclick="renderData(${index})">Edit</button>
+                            </td>
+                        </tr>
+                        `;
+          }
+        });
+        document.getElementsByTagName("tbody")[0].innerHTML = htmlResult;
+      }
+
+      function saveData(index) {
+        let name = document.getElementById("editName").value;
+        let price = document.getElementById("editPrice").value;
+        let category = document.getElementById("editCategory").value;
+        let stock = document.getElementById("editStock").value;
+
+        productObj[index].name = name;
+        productObj[index].price = price;
+        productObj[index].category = category;
+        productObj[index].stock = stock;
+
+        renderData();
+      }
+
+      function renderCart() {
+        let cartResult = "";
+        cartObj.forEach((val, index) => {
+          cartResult += `
+                       <tr>
+                          <td>${index + 1}</td>
+                          <td>${val.name}</td>
+                          <td> Rp. ${parseInt(val.price).toLocaleString()}</td>
+                          <td>${val.category}</td>
+                          <td>${val.qty}</td>
+                          <td>
+                              <button onclick="deleteCart(${index})">Delete</button>
+                          </td>
+                      </tr>
+                      `;
+        });
+        document.getElementsByTagName("tbody")[1].innerHTML = cartResult;
+      }
+
+      function total() {
+        let bill = 0;
+        cartObj.forEach((val) => {
+          bill += val.price * val.qty;
+        });
+        document.getElementById("bill").innerHTML = `Total Bill:Rp. ${parseInt(
+          bill
+        ).toLocaleString()}`;
+      }
+
+      renderCart();
+      renderData();
+    </script>
+  </body>
+</html>

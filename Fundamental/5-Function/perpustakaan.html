@@ -34,10 +34,10 @@
   }
 
   function editBooks(books) {
-    book = prompt(`\n ${showBooks(books)} \n \n Buku yang ingin di edit :`);
-    bookIndex = books.indexOf(book);
+    let book = prompt(`\n ${showBooks(books)} \n \n Buku yang ingin di edit :`);
+    let bookIndex = books.indexOf(book);
 
-    newBook = prompt(`Buku Baru :`);
+    let newBook = prompt(`Buku Baru :`);
 
     books[bookIndex] = newBook;
 

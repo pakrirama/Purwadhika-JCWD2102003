@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perpustakaan</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            text-align: center;
+            /* border-collapse: collapse; */
+            padding: 10px;
+
+        }
+    </style>
+</head>
+<body>
+    
+    <table id="Filter">
+        <thead>
+            <tr>
+                <td>
+                    <h1>Filter</h1>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="filterCat">Category</label>
+                    <select id="filterCat" onchange="renderData()">
+                        <option value="All">All</option>
+                        <option value="Sejarah">Sejarah</option>
+                        <option value="Hiburan">Hiburan</option>
+                        <option value="Pelajaran">Pelajaran</option>
+                    </select>
+                    </td>
+            </tr>
+
+            <tr>
+                <td>
+                <input type="text" id="filterNamaBuku" placeholder="Filter Nama Buku" oninput="renderData()">
+            </td>
+            </tr>
+            
+        </thead>
+    </table>
+
+    <h1> 
+        Daftar Buku
+    </h1>
+    <br>
+    
+    <table id="Books">
+        <thead>
+            <tr>
+                <th>
+                No
+                </th>
+                <th>
+                Book Name
+                </th>
+                <th>
+                    Author
+                    </th>
+                
+                <th>
+                Price / Week
+                </th>
+                <th>
+                    Total Page
+                    </th>
+                <th>
+                Category
+                </th>
+                <th>
+                    Status
+                    </th>
+                <th>
+                    Action
+                    </th>
+            </tr>
+        </thead>
+        <tbody id="produkBody">
+        
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>
+
+                </td>
+                <td>
+                    <input type="text" id="txtBookName" placeholder="Book Name" >
+                </td>
+                <td>
+                    <input type="text" id="txtAuthor" placeholder="Author">
+   
+                </td>
+                <td>
+                </td>
+                <td>
+                    <input type="number" id="txtTotalPage"  placeholder="Total Page">
+                </td>
+                <td>
+                    <select id="ddCategory">
+                        <option value="Sejarah">Sejarah</option>
+                        <option value="Hiburan">Hiburan</option>
+                        <option value="Pelajaran">Pelajaran</option>
+                    </select>
+                </td>
+                <td>
+                    <select id="ddStatus">
+                        <option value="Available">Available</option>
+                        <option value="In Cart">In Cart</option>
+                        <option value="Rent">Rent</option>
+                    </select>            
+                </td>
+                <td>
+                    <button onclick="Add()">Add</button>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <h1> 
+
+    </h1>
+    <br>
+    <h1>
+        Cart
+    </h1>
+
+
+    <table id="Cart">
+        <thead>
+            <tr>
+                <td >
+                    <input type="text" placeholder="Nama Peminjam" id="txtNamaPeminjam">
+                </td>
+            </tr>
+            <tr>
+                <tr>
+                    <th>
+                    No
+                    </th>
+                    <th>
+                    Book Name
+                    </th>
+                    <th>
+                    Author
+                    </th>
+                    <th>
+                    Price / Week
+                    </th>
+                    <th>
+                        Total Page
+                        </th>
+                    <th>
+                    Category
+                    </th>
+                   
+                    <th>
+                        Action
+                    </th>
+                </tr>
+            </tr>
+        </thead>
+        <tbody id="CartBody">
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>
+                  <h3>  Total Harga : 
+                </h3> 
+                </td>
+                <td>
+                    <h3 id="labelHarga">  Rp.0 
+                    </h3>
+                    
+                </td>
+                <td >
+                    <button id="btnConfirm" onclick="confirmPay()">Confirm</button>
+ 
+                 </td>
+            </tr>
+            <tr id="waktuPembayaran" hidden>
+                <td>
+                    Sisa Waktu Pembayaran<br>
+                    <h1><span id="minutes">00</span>:<span id="seconds">00</span></h1>
+                    
+                </td>
+                <td>
+                    Nominal Pembayaran <br><br>
+                    <input type="number" id="nominal">
+                </td>
+                <td>
+                    <button onclick="stopCounter()">Cancle</button>
+                    <button onclick="checkout()">Checkout</button>
+                </td>
+               
+            </tr>
+        </tfoot>
+    </table>
+    <h3 id="kembalian"></h3>
+        <h1>
+            Daftar Peminjam
+        </h1>
+
+        <table id="Checkout">
+            <thead>
+                <tr>
+                    <tr>
+                        <th>
+                        No
+                        </th>
+                        <th>
+                            Nama Peminjam
+                            </th>
+                        <th>
+                        Book Name
+                        </th>
+                        <th>
+                        Author
+                        </th>
+                      
+                        <th>
+                            Total Page
+                            </th>
+                            <th>
+                                Due Date
+                                </th>
+                                <th>
+                                    Category
+                                    </th>
+                        <th>
+                            Action
+                        </th>
+                    </tr>
+                </tr>
+            </thead>
+            <tbody id="RentBody">
+            
+            </tbody>
+        </table>
+        <script src="./dataTable.js"></script>
+        <script src="dataCart.js"></script>
+        <script src="dataRenter.js"></script>
+        <script src="counter.js"></script>
+<script>
+class Books {
+  constructor(bookName, Author, Week, TotalPage, Category, Status, Id) {
+    this.bookName = bookName;
+    this.Author = Author;
+    this.Week = Week;
+    this.TotalPage = TotalPage;
+    this.Status = Status;
+    this.Category = Category,
+    this.Id = Id;
+  }
+}
+
+class Cart extends Books {
+  constructor(bookName, Author, Week, TotalPage, Category, Status, Id) {
+    super(bookName, Author, Week, TotalPage, Category, Status, Id);
+  }
+}
+
+class Renter extends Books {
+  constructor(bookName, Author, Week, TotalPage, Category, Status, Id, Name) {
+    super(bookName, Author, Week, TotalPage, Category, Status, Id);
+    this.Name = Name;
+    this.dueDate = new Date();
+  }
+}
+
+let daftarBooks = [
+    new Books("G30SPKI", "Jason Bahtiar", 1, 146, "Sejarah","Available", 0),
+        new Books("Gadjah Mada", "Alex Bayu", 1, 216, "Sejarah","Available", 1),
+        new Books("Harry Potter", "J.K Rowling", 1, 452,  "Hiburan","Available", 2),
+        new Books("Insurgent", "Veronica Roth", 1, 287,  "Hiburan","Available", 3),
+        new Books("Matematika", "Titus Sakti", 1, 89,  "Pelajaran","Available", 4),
+        new Books("IPS", "Badra Topan", 1, 97,  "Pelajaran","Available", 5),
+    
+    ];
+
+
+
+renderData()      
+
+
+</script>
+</body>
+</html>

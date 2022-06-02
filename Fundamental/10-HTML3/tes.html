@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Table Occupation</title>
+    <style>
+      table,
+      th,
+      tr,
+      td {
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <table>
+      <!-- table head = menginformasikan bahwa ini adalah header sebuah table -->
+      <!-- No, Name, Occupation, Gender, Age -->
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Name</th>
+          <th>Occupation</th>
+          <th>Gender</th>
+          <th>Age</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <!-- table body = menginformasikan bahwa ini adalah body/content sebuah table -->
+
+      <tbody>
+        <!-- tr =  table row -->
+
+        <tr>
+          <td>2</td>
+          <td>Anjas</td>
+          <td>Software Developer</td>
+          <td>Pria</td>
+          <td>20</td>
+
+          <td>
+            <button onclick="DeleteData()">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+
+      <!-- table foot = menginformasikan bahwa ini adalah footer sebuah table -->
+      <tfoot>
+        <tr>
+          <!-- td adalah table data  -->
+          <td>
+            <!-- ini buat number -->
+          </td>
+          <td>
+            <input type="text" id="tbNama" />
+          </td>
+          <td>
+            <select id="tbOcc">
+              <option value="Software Developer">Software Developer</option>
+              <option value="Data Science">Data Science</option>
+              <option value="Front End">Front End</option>
+              <option value="Back End">Back End</option>
+            </select>
+          </td>
+          <td>
+            <label for="gender1">
+              <input
+                checked
+                id="gender1"
+                name="gender"
+                type="radio"
+                value="Male"
+              />Male
+            </label>
+            <label for="gender2">
+              <input
+                id="gender2"
+                name="gender"
+                type="radio"
+                value="Female"
+              />Female
+            </label>
+          </td>
+          <td>
+            <input type="number" id="tbUmur" />
+          </td>
+
+          <td>
+            <button onclick="AddData()">Add</button>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <script>
+      function AddData() {
+        let name = document.getElementById("tbNama").value;
+        let occ = document.getElementById("tbOcc").value;
+        const isPriaChecked = document.getElementById("gender1").checked;
+        const isWanitaChecked = document.getElementById("gender2").checked;
+        let gender;
+        if (isPriaChecked) {
+          gender = document.getElementById("gender1").value;
+        } else if (isWanitaChecked) {
+          gender = document.getElementById("gender2").value;
+        }
+
+        let age = parseInt(document.getElementById("tbUmur").value);
+
+        let person = new Person(name, occ, gender, age);
+
+        document.getElementById("tbNama").value = "";
+        document.getElementById("tbUmur").value = "";
+
+        dataPerson.push(person);
+
+        renderData();
+
+        // alert('Add Data ini')
+      }
+
+      function DeleteData(idx) {
+        dataPerson.splice(idx, 1);
+        renderData();
+      }
+
+      class Person {
+        constructor(name, occ, gender, age) {
+          this.name = name;
+          this.occupation = occ;
+          this.gender = gender;
+          this.age = age;
+        }
+      }
+
+      const dataPerson = [
+        new Person("Jason", "Front End", "Male", 20),
+        new Person("Titus", "Software Developer", "Male", 25),
+        new Person("Alex", "Back End", "Male", 25),
+      ];
+
+      function renderData(editIdx) {
+        let htmlResult = "";
+        dataPerson.forEach((item, idx) => {
+          if (editIdx == idx) {
+            htmlResult += `<tr>
+          <td>
+          </td>
+          <td>
+            <input type="text" id="editName" value=${item.name} />
+          </td>
+               <td>
+            <select id="editOcc">
+              <option ${
+                item.occupation == "Software Developer" ? "selected" : ""
+              } value="Software Developer">Software Developer</option>
+              <option  ${
+                item.occupation == "Data Science" ? "selected" : ""
+              }  value="Data Science">Data Science</option>
+              <option
+               ${item.occupation == "Front End" ? "selected" : ""}
+              value="Front End">Front End</option>
+              <option
+               ${item.occupation == "Back End" ? "selected" : ""}
+              value="Back End">Back End</option>
+            </select>
+          </td>
+          <td>
+            <label for="editGender1">
+              <input ${item.gender == "Male" ? "checked" : ""}
+                checked
+                id="editGender1"
+                name="editGender"
+                type="radio"
+                value="Male"
+              />Male
+            </label>
+            <label for="editGender2">
+              <input ${item.gender == "Female" ? "checked" : ""}
+                id="editGender2"
+                name="editGender"
+                type="radio"
+                value="Female"
+              />Female
+            </label>
+          </td>
+          <td>
+            <input type="number" id="editAge" value="${item.age}"/>
+          </td>
+
+          <td>
+            <button onclick="renderData()">Cancel</button>
+            <button onclick="saveData(${editIdx})">Save</button>
+          </td>
+        </tr>`;
+          } else {
+            htmlResult += `
+             <tr>
+            <td>
+                ${idx + 1}
+               </td>
+               <td>
+                ${item.name}
+                </td>
+                <td>
+                ${item.occupation}
+                </td>
+                <td>
+                  ${item.gender}
+                </td>
+            <td>
+                ${item.age}
+            </td>
+            <td>
+            <button onclick="DeleteData(${idx})"> Delete</button>
+            <button onclick="renderData(${idx})">Edit</button>
+            </td>
+         </tr>
+             `;
+          }
+        });
+
+        document.getElementsByTagName("tbody")[0].innerHTML = htmlResult;
+      }
+
+      function saveData(idx) {
+        let name = document.getElementById("editName").value;
+        let occ = document.getElementById("editOcc").value;
+        let age = document.getElementById("editAge").value;
+
+        let gender;
+        let isChecked1 = document.getElementById("editGender1").checked;
+        let isChecked2 = document.getElementById("editGender2").checked;
+
+        if (isChecked1) {
+          gender = document.getElementById("editGender1").value;
+        } else if (isChecked2) {
+          gender = document.getElementById("editGender2").value;
+        }
+
+        dataPerson[idx].name = name;
+        dataPerson[idx].occupation = occ;
+        dataPerson[idx].gender = gender;
+        dataPerson[idx].age = age;
+
+        renderData();
+      }
+
+      renderData();
+    </script>
+  </body>
+</html>

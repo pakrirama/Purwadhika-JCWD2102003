@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Perpustakaan</title>
+    <style>
+      table,
+      th,
+      tr,
+      td {
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- =============================================== Daftar Buku =============================================== -->
+    <h1>Daftar Buku</h1>
+    <span>Tanggal : <span id="tampilTanggal"></span> </span><br /><br />
+    <span
+      >Cari Buku :
+      <input type="text" id="ftTbBkNama" onchange="renderDataBuku()" /> </span
+    ><br /><br />
+    <span
+      >Filter Kategori :
+      <select
+        name=""
+        onchange="renderDataBuku()"
+        id="ftTbBkKategori"
+      ></select></span
+    ><br /><br />
+    <span
+      >Filter Status :
+      <select name="" onchange="renderDataBuku()" id="ftTbBkStatus">
+        <option value="">- Pilih Status -</option>
+        <option value="Available">Available</option>
+        <option value="Unavailable">Unavailable</option>
+      </select></span
+    ><br /><br />
+    <table border="1" cellspacing="0">
+      <thead bgcolor="#999999">
+        <tr>
+          <th>No</th>
+          <th>Nama Buku</th>
+          <th width="100px">Author</th>
+          <th>Harga Buku Perminggu</th>
+          <th>Banyak Halaman</th>
+          <th>Stok Buku</th>
+          <th>Category Buku</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="tbDaftarBuku"></tbody>
+      <tfoot>
+        <tr>
+          <td></td>
+          <td>
+            <input
+              type="text"
+              style="width: 150px"
+              id="namaBuku"
+              required
+              min="100"
+              placeholder="Nama Buku"
+            />
+          </td>
+          <td>
+            <input
+              type="text"
+              style="width: 150px"
+              id="author"
+              required
+              min="100"
+              placeholder="Author"
+            />
+          </td>
+          <td>
+            <input
+              type="number"
+              id="hargaPinjam"
+              required
+              min="1000"
+              placeholder="Harga Pinjam"
+            />
+          </td>
+          <td align="center">
+            <input
+              type="number"
+              id="banyakHalaman"
+              style="width: 100px"
+              required
+              min="1"
+              placeholder="Banyak Halaman"
+            />
+          </td>
+          <td>
+            <input
+              type="number"
+              id="stokBuku"
+              required
+              min="1"
+              placeholder="Stok Buku"
+            />
+          </td>
+          <td align="center" id="panggilKategori">
+            <select name="" id="kategori">
+              <!-- <option value="">-Pilih Catetgory-</option> -->
+              <!-- <option value="Komik">Komik</option>
+        <option value="Novel">Novel</option>
+        <option value="Pendidikan">Pendidikan</option>
+        <option value="Masak">Masak</option>
+        <option value="Kamus">Kamus</option> -->
+            </select>
+          </td>
+          <td align="center" width="100px">
+            <input
+              type="text"
+              style="width: 150px"
+              id="status"
+              required
+              min="100"
+              readonly
+              hidden
+              value="Available"
+            />
+            Available
+          </td>
+          <td colspan="2" align="center">
+            <button onclick="addBuku()">Add Product</button>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <!-- =============================================== Daftar Cart =============================================== -->
+    <h1>Daftar Cart</h1>
+
+    <h5>
+      Nama Peminjam : <input type="text" id="namaPeminjam" readonly value="" />
+    </h5>
+    <table border="1" cellspacing="0">
+      <thead bgcolor="#999999">
+        <tr>
+          <th width="180px">Nama Buku</th>
+          <th width="150px">Author</th>
+          <th width="120px">Kategori</th>
+          <th width="100px">Banyak Halaman</th>
+          <th width="120px">Harga</th>
+          <th width="100px">Lama Pinjam</th>
+          <th width="100px">Due Date</th>
+          <th width="120px">Total Harga</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="tbDaftarCart"></tbody>
+      <tfoot>
+        <tr>
+          <td colspan="7">Total Harga</td>
+          <td colspan="2" align="right"><h2 id="totalHarga">Rp 0</h2></td>
+        </tr>
+        <tr>
+          <td colspan="7">Bayar</td>
+          <td colspan="2" align="right">
+            <input type="number" onchange="kembalian()" name="" id="bayar" />
+          </td>
+        </tr>
+        <tr>
+          <td colspan="7">Kembalian</td>
+          <td colspan="2" align="right"><h2 id="kembalian">Rp 0</h2></td>
+        </tr>
+      </tfoot>
+    </table>
+    <br />
+    <button onclick="checkOut()">Check Out</button>
+
+    <!-- =============================================== Daftar Pinjaman =============================================== -->
+    <h1>Daftar Pinjaman</h1>
+    <table border="1" cellspacing="0">
+      <thead bgcolor="#999999">
+        <tr>
+          <th width="180px">Nama Peminjam</th>
+          <th width="180px">Nama Buku</th>
+          <th width="150px">Author</th>
+          <th width="100px">Banyak Halaman</th>
+          <th width="100px">Tanggal Pinjam</th>
+          <th width="100px">Lama Peminjaman</th>
+          <th width="100px">Tanggal Balik</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="tbDaftarPinjam"></tbody>
+      <tfoot></tfoot>
+    </table>
+
+    <!-- =============================================== Script =============================================== -->
+    <script>
+      // =======================================================================Class Buku
+      class Buku {
+        constructor(
+          namaBuku,
+          author,
+          hargaPinjam,
+          banyakHalaman,
+          stok,
+          category,
+          status
+        ) {
+          this.namaBuku = namaBuku;
+          this.author = author;
+          this.hargaPinjam = hargaPinjam;
+          this.banyakHalaman = banyakHalaman;
+          this.stok = stok;
+          this.category = category;
+          this.status = status;
+        }
+      }
+
+      // =======================================================================Class Cart
+      class Cart {
+        constructor(
+          cnamaBuku,
+          cauthor,
+          chargaPinjam,
+          cbanyakHalaman,
+          cqty,
+          clamaPjm,
+          ccategory,
+          cTotHarga,
+          cTanggalBalik
+        ) {
+          this.cnamaBuku = cnamaBuku;
+          this.cauthor = cauthor;
+          this.chargaPinjam = chargaPinjam;
+          this.cbanyakHalaman = cbanyakHalaman;
+          this.cqty = cqty;
+          this.clamaPjm = clamaPjm;
+          this.ccategory = ccategory;
+          this.cTotHarga = cTotHarga;
+          this.cTanggalBalik = cTanggalBalik;
+        }
+      }
+
+      // =======================================================================Class Pinjam
+      class Peminjam1 {
+        constructor(
+          idPinjam,
+          ppeminjam,
+          pnamaBuku,
+          pauthor,
+          pbanyakHalaman,
+          pstok,
+          pcategory,
+          pTanggalPinjam,
+          pLamaPinjam,
+          pTanggalBalik,
+          idxp1
+        ) {
+          this.idPinjam = idPinjam;
+          this.ppeminjam = ppeminjam;
+          this.pnamaBuku = pnamaBuku;
+          this.pauthor = pauthor;
+          this.pbanyakHalaman = pbanyakHalaman;
+          this.pstok = pstok;
+          this.pcategory = pcategory;
+          this.pTanggalPinjam = pTanggalPinjam;
+          this.pLamaPinjam = pLamaPinjam;
+          this.pTanggalBalik = pTanggalBalik;
+          this.idxp1 = idxp1;
+        }
+      }
+
+      // =======================================================================Class Pinjam
+      class Peminjam2 {
+        constructor(
+          idPinjam2,
+          ppeminjam2,
+          pnamaBuku2,
+          pauthor2,
+          pbanyakHalaman2,
+          pstok2,
+          pcategory2,
+          pTanggalPinjam2,
+          pLamaPinjam2,
+          pTanggalBalik2,
+          pSisaHari2,
+          idxp2
+        ) {
+          this.idPinjam2 = idPinjam2;
+          this.ppeminjam2 = ppeminjam2;
+          this.pnamaBuku2 = pnamaBuku2;
+          this.pauthor2 = pauthor2;
+          this.pbanyakHalaman2 = pbanyakHalaman2;
+          this.pstok2 = pstok2;
+          this.pcategory2 = pcategory2;
+          this.pTanggalPinjam2 = pTanggalPinjam2;
+          this.pLamaPinjam2 = pLamaPinjam2;
+          this.pTanggalBalik2 = pTanggalBalik2;
+          this.idxp2 = idxp2;
+        }
+      }
+
+      // =======================================================================Data Buku,  Cart dan Data Pinjaman
+      const dataBuku = [
+        new Buku("Naruto", "Masashi", 2000, 20, 2, "Komik", "Available"),
+        new Buku("Black Clover", "Masashi", 1000, 20, 1, "Komik", "Available"),
+        new Buku("Bleach", "Masashi", 1000, 20, 1, "Anime", "Unavailable"),
+        new Buku("You And Me", "tidak tau", 1000, 20, 1, "Novel", "Available"),
+        new Buku("Boruto", "Masashi", 1000, 25, 1, "Komik", "Available"),
+      ];
+      const cekBuku = ["Naruto", "Black Clover", "Bleach", "You And Me"];
+      const dataCart = [];
+      const dataPinjaman = [];
+      const dataPinjaman2 = [];
+
+      // pengecekkan kategori untuk di filter versi for
+      // let cekKategori = [];
+      //   for (let i = 0; i < dataBuku; i++) {
+      //     cekKategori.push(dataBuku[i].category);
+      //   }
+      //   let cekKategori2 = new Set(cekKategori);
+      //   let filterKategori = [...cekKategori2];
+
+      // pengecekkan kategori untuk di filter versi maping
+      let temp = dataBuku.map(function (x) {
+        return x.category;
+      });
+      let cekKategori2 = new Set(temp);
+      let filterKategori = [...cekKategori2];
+
+      //Mengambil Nama Peminjam Sementara untuk Cart
+      let namaDatapinjam2 = dataPinjaman2.map(function (x) {
+        return x.ppeminjam2;
+      });
+      let cekNamaPeminjam2 = new Set(namaDatapinjam2);
+      let filterNamaPeminjam2 = [...cekNamaPeminjam2];
+
+      // =======================================================================Add to Cart
+      function addToCart(idx) {
+        let namaAtc = dataBuku[idx].namaBuku;
+        let authorAtc = dataBuku[idx].author;
+        let hargaAtc = dataBuku[idx].hargaPinjam;
+        let halamanAtc = dataBuku[idx].banyakHalaman;
+        let stokAtc = dataBuku[idx].stok;
+        let categoryAtc = dataBuku[idx].category;
+        let statusAtc = dataBuku[idx].status;
+        let stokAtc2 = 1;
+
+        if (statusAtc == "Available") {
+          var validasiAngka = /^[0-9]+$/;
+          let ambilNamaPeminjam2 =
+            document.getElementById("namaPeminjam").value;
+
+          let temp = dataCart.map(function (x) {
+            return x.cnamaBuku;
+          });
+          let dataPeminjam = dataPinjaman2.map(function (x) {
+            return x.ppeminjam2;
+          });
+
+          cekCart = temp.includes(namaAtc);
+          let checkQty = dataCart[temp.indexOf(namaAtc)]
+            ? dataCart[temp.indexOf(namaAtc)].cstok
+            : 0;
+
+          // if(empty) {
+          //   let namaPeminjam = prompt(`Masukkan Nama Peminjam`)
+          //   let lamaPinjam = prompt(`Nama Buku : ${namaAtc} / ${authorAtc} / ${categoryAtc}\nNama Harga Pinjam : Rp ${hargaAtc.toLocaleString()} /Minggu\nStok Buku : ${stokAtc}\nStatus : ${statusAtc}\nJumlah Pinjam : ${stokAtc2}\n\nMaksimal Peminjaman 1 Buku\nMasukkan Lama Pinjaman\nminimal peminjaman 1 minggu maksimal 4 minggu`);
+          // } else {
+          //   let lamaPinjam = prompt(`Nama Buku : ${namaAtc} / ${authorAtc} / ${categoryAtc}\nNama Harga Pinjam : Rp ${hargaAtc.toLocaleString()} /Minggu\nStok Buku : ${stokAtc}\nStatus : ${statusAtc}\nJumlah Pinjam : ${stokAtc2}\n\nMaksimal Peminjaman 1 Buku\nMasukkan Lama Pinjaman\nminimal peminjaman 1 minggu maksimal 4 minggu`);
+          // }
+          if (ambilNamaPeminjam2 == "") {
+            let inputNama = prompt(`Masukkan Nama Peminjam`);
+            let lamaPinjam = prompt(
+              `Nama Buku : ${namaAtc} / ${authorAtc} / ${categoryAtc}\nNama Harga Pinjam : Rp ${hargaAtc.toLocaleString()} /Minggu\nStok Buku : ${stokAtc}\nStatus : ${statusAtc}\nJumlah Pinjam : ${stokAtc2}\n\nMaksimal Peminjaman 1 Buku\nMasukkan Lama Pinjaman\nminimal peminjaman 1 minggu maksimal 4 minggu`
+            );
+
+            if (inputNama == "" || inputNama <= 0) {
+              alert("Maaf Nama tidak boleh kosong");
+            } else if (inputNama == "" || lamaPinjam <= 0) {
+              alert("Maaf data tidak boleh kosong");
+            } else if (!lamaPinjam.match(validasiAngka)) {
+              alert("Data yang boleh diisi hanya angka saja");
+            } else if (lamaPinjam > 4) {
+              alert("Maksimal hanya 4 minggu");
+            } else if (cekCart) {
+              alert("Buku sudah masuk kedalam Cart");
+            } else {
+              let totalHarga = parseInt(hargaAtc) * parseInt(lamaPinjam);
+              let mingguToHari = parseInt(lamaPinjam) * 7;
+              var tanggalHariIni = new Date();
+              var tanggalDueDate = new Date(tanggalHariIni);
+              //tambah hari
+              tanggalDueDate.setDate(tanggalDueDate.getDate() + mingguToHari);
+              var tanggalDapat = new Date(tanggalDueDate);
+
+              let cariIndex = 0;
+              // for (var i = 0; i < dataPinjaman.length; i++) {
+              //   cariIndex += dataPinjaman[i].length ;
+              // }
+
+              if (dataPinjaman.length == 0) {
+                cariIndex = 0;
+              } else {
+                cariIndex = dataPinjaman.length;
+              }
+
+              var ambilKodeId =
+                inputNama.substr(0, 3) +
+                "-" +
+                namaAtc.substr(0, 3) +
+                "-" +
+                authorAtc.substr(0, 3) +
+                "-" +
+                mingguToHari +
+                "-" +
+                cariIndex;
+
+              let tambahCart = new Cart(
+                namaAtc,
+                authorAtc,
+                hargaAtc,
+                halamanAtc,
+                stokAtc2,
+                lamaPinjam,
+                categoryAtc,
+                totalHarga,
+                tanggalDapat.toLocaleDateString()
+              );
+
+              let tambahDaftarPinjam2 = new Peminjam2(
+                ambilKodeId,
+                inputNama,
+                namaAtc,
+                authorAtc,
+                halamanAtc,
+                stokAtc2,
+                categoryAtc,
+                tanggalHariIni.toLocaleDateString(),
+                mingguToHari,
+                tanggalDapat.toLocaleDateString(),
+                0
+              );
+
+              let tambahDaftarPinjam = new Peminjam1(
+                ambilKodeId,
+                inputNama,
+                namaAtc,
+                authorAtc,
+                halamanAtc,
+                stokAtc2,
+                categoryAtc,
+                tanggalHariIni.toLocaleDateString(),
+                mingguToHari,
+                tanggalDapat.toLocaleDateString(),
+                cariIndex
+              );
+
+              dataBuku[idx].stok -= stokAtc2;
+              dataCart.push(tambahCart);
+              dataPinjaman2.push(tambahDaftarPinjam2);
+              dataPinjaman.push(tambahDaftarPinjam);
+
+              if (dataBuku[idx].stok == 0) {
+                dataBuku[idx].status = "Unavailable";
+              }
+
+              let totalseluruh = 0;
+              for (var i = 0; i < dataCart.length; i++) {
+                totalseluruh += dataCart[i].cTotHarga;
+              }
+              document.getElementById("totalHarga").innerHTML =
+                "Rp " + totalseluruh.toLocaleString();
+              document.getElementById("namaPeminjam").value = inputNama;
+              renderDataBuku();
+              renderDataCart();
+            }
+          } else {
+            let lamaPinjam = prompt(
+              `Nama Buku : ${namaAtc} / ${authorAtc} / ${categoryAtc}\nNama Harga Pinjam : Rp ${hargaAtc.toLocaleString()} /Minggu\nStok Buku : ${stokAtc}\nStatus : ${statusAtc}\nJumlah Pinjam : ${stokAtc2}\n\nMaksimal Peminjaman 1 Buku\nMasukkan Lama Pinjaman\nminimal peminjaman 1 minggu maksimal 4 minggu`
+            );
+
+            if (lamaPinjam == "" || lamaPinjam <= 0) {
+              alert("Maaf data tidak boleh kosong");
+            } else if (!lamaPinjam.match(validasiAngka)) {
+              alert("Data yang boleh diisi hanya angka saja");
+            } else if (lamaPinjam > 4) {
+              alert("Maksimal hanya 4 minggu");
+            } else if (cekCart) {
+              alert("Buku sudah masuk kedalam Cart");
+            } else {
+              let totalHarga = parseInt(hargaAtc) * parseInt(lamaPinjam);
+              let mingguToHari = parseInt(lamaPinjam) * 7;
+              var tanggalHariIni = new Date();
+              var tanggalDueDate = new Date(tanggalHariIni);
+              //tambah hari
+              tanggalDueDate.setDate(tanggalDueDate.getDate() + mingguToHari);
+              var tanggalDapat = new Date(tanggalDueDate);
+
+              let cariIndex = 0;
+              // for (var i = 0; i < dataPinjaman.length; i++) {
+              //   cariIndex += dataPinjaman[i].length ;
+              // }
+
+              if (dataPinjaman.length == 0) {
+                cariIndex = 0;
+              } else {
+                cariIndex = dataPinjaman.length;
+              }
+
+              var ambilKodeId =
+                ambilNamaPeminjam2.substr(0, 3) +
+                "-" +
+                namaAtc.substr(0, 3) +
+                "-" +
+                authorAtc.substr(0, 3) +
+                "-" +
+                mingguToHari +
+                "-" +
+                cariIndex;
+
+              let tambahCart = new Cart(
+                namaAtc,
+                authorAtc,
+                hargaAtc,
+                halamanAtc,
+                stokAtc2,
+                lamaPinjam,
+                categoryAtc,
+                totalHarga,
+                tanggalDapat.toLocaleDateString()
+              );
+
+              let tambahDaftarPinjam2 = new Peminjam2(
+                ambilKodeId,
+                ambilNamaPeminjam2,
+                namaAtc,
+                authorAtc,
+                halamanAtc,
+                stokAtc2,
+                categoryAtc,
+                tanggalHariIni.toLocaleDateString(),
+                mingguToHari,
+                tanggalDapat.toLocaleDateString(),
+                cariIndex
+              );
+
+              let tambahDaftarPinjam = new Peminjam1(
+                ambilKodeId,
+                ambilNamaPeminjam2,
+                namaAtc,
+                authorAtc,
+                halamanAtc,
+                stokAtc2,
+                categoryAtc,
+                tanggalHariIni.toLocaleDateString(),
+                mingguToHari,
+                tanggalDapat.toLocaleDateString(),
+                cariIndex
+              );
+
+              dataBuku[idx].stok -= stokAtc2;
+              dataCart.push(tambahCart);
+              dataPinjaman2.push(tambahDaftarPinjam2);
+              dataPinjaman.push(tambahDaftarPinjam);
+
+              if (dataBuku[idx].stok == 0) {
+                dataBuku[idx].status = "Unavailable";
+              }
+
+              let totalseluruh = 0;
+              for (var i = 0; i < dataCart.length; i++) {
+                totalseluruh += dataCart[i].cTotHarga;
+              }
+              document.getElementById("totalHarga").innerHTML =
+                "Rp " + totalseluruh.toLocaleString();
+              renderDataBuku();
+              renderDataCart();
+            }
+          }
+        } else {
+          alert("Buku Unavailable atau tidak tersedia");
+        }
+      }
+
+      // =======================================================================Tambah Data Buku
+      function addBuku() {
+        var name = document.getElementById("namaBuku").value;
+        var author = document.getElementById("author").value;
+        var harga = document.getElementById("hargaPinjam").value;
+        var halaman = document.getElementById("banyakHalaman").value;
+        var stok = document.getElementById("stokBuku").value;
+        var kategori = document.getElementById("kategori").value;
+        var status = document.getElementById("status").value;
+
+        let tambahBuku = new Buku(
+          name,
+          author,
+          harga,
+          halaman,
+          stok,
+          kategori,
+          status
+        );
+
+        if (
+          name == "" ||
+          author == "" ||
+          harga <= 0 ||
+          halaman <= 0 ||
+          stok <= 0 ||
+          kategori == ""
+        ) {
+          alert("Salah satu dari data belum terisi atau kosong");
+        } else if (cekBuku.includes(name)) {
+          alert("Data Buku sudah ada");
+        } else {
+          cekBuku.push(name);
+          dataBuku.push(tambahBuku);
+
+          document.getElementById("namaBuku").value = "";
+          document.getElementById("author").value = "";
+          document.getElementById("hargaPinjam").value = "";
+          document.getElementById("banyakHalaman").value = "";
+          document.getElementById("stokBuku").value = "";
+          document.getElementById("kategori").value = "";
+        }
+        renderDataBuku();
+      }
+
+      // =======================================================================Deleted Data Buku
+      function deleteBuku(idx) {
+        cekBuku.splice(idx, 1);
+        dataBuku.splice(idx, 1);
+
+        renderDataBuku();
+      }
+
+      //===========================================================================Delete Keranjang
+      function deleteCart(idxc) {
+        // ambil terlebih dahulu data qty dari keranjang yang ingin dihapus
+        let delNamaBuku = dataCart[idxc].cnamaBuku;
+        let qtyDelCart = dataCart[idxc].cqty;
+
+        //ambil index dari data Buku untuk mengembalikan stok
+        let temp = dataBuku.map(function (x) {
+          return x.namaBuku;
+        });
+
+        dataBuku[temp.indexOf(delNamaBuku)].stok =
+          parseInt(qtyDelCart) +
+          parseInt(dataBuku[temp.indexOf(delNamaBuku)].stok);
+
+        dataCart.splice(idxc, 1);
+
+        if (dataBuku[temp.indexOf(delNamaBuku)].stok > 0) {
+          dataBuku[temp.indexOf(delNamaBuku)].status = "Available";
+        }
+
+        let totalseluruh = 0;
+        for (var i = 0; i < dataCart.length; i++) {
+          totalseluruh += dataCart[i].cTotHarga;
+        }
+        document.getElementById("totalHarga").innerHTML =
+          "Rp " + totalseluruh.toLocaleString();
+
+        if (totalseluruh == 0) {
+          document.getElementById("namaPeminjam").value = "";
+        }
+
+        renderDataBuku();
+        renderDataCart();
+      }
+
+      //===========================================================================Delete Peminjam
+      function deletePinjaman(idxpin) {
+        // ambil terlebih dahulu data qty dari keranjang yang ingin dihapus
+        let deletePeminjam = dataPinjaman[idxpin].idPinjam;
+        let namaBuku = dataPinjaman[idxpin].pnamaBuku;
+        let qtyDelPeminjam = 1;
+        let indexPeminjam = dataPinjaman[idxpin].idxp1;
+
+        //ambil index dari data Buku untuk mengembalikan stok
+        let temp = dataBuku.map(function (x) {
+          return x.namaBuku;
+        });
+
+        dataBuku[temp.indexOf(namaBuku)].stok =
+          parseInt(qtyDelPeminjam) +
+          parseInt(dataBuku[temp.indexOf(namaBuku)].stok);
+
+        dataPinjaman.splice(idxpin, 1);
+
+        if (dataBuku[temp.indexOf(namaBuku)].stok > 0) {
+          dataBuku[temp.indexOf(namaBuku)].status = "Available";
+        }
+
+        // let totalseluruh = 0;
+        //   for (var i = 0; i < dataCart.length; i++) {
+        //   totalseluruh += dataCart[i].cTotHarga;
+        // }
+        // document.getElementById("totalHarga").innerHTML = "Rp " + totalseluruh.toLocaleString();
+
+        renderDataPeminjam();
+        renderDataBuku();
+      }
+
+      //===========================================================================Check Out
+      function checkOut() {
+        let maubayar = document.getElementById("bayar").value;
+
+        let totalseluruh = 0;
+        for (var i = 0; i < dataCart.length; i++) {
+          totalseluruh += dataCart[i].cTotHarga;
+        }
+
+        document.getElementById("totalHarga").innerHTML =
+          "Rp " + totalseluruh.toLocaleString();
+
+        if (totalseluruh == 0 && maubayar >= 0) {
+          alert("Data keranjang masih kosong");
+        } else if (maubayar == "" || maubayar <= 0) {
+          alert("Input Pembayaran masih kosong");
+        } else if (totalseluruh > maubayar) {
+          alert("Pembayaran tidak cukup");
+        } else {
+          dataCart.splice(0, dataCart.length);
+          dataPinjaman2.splice(0, dataPinjaman2.length);
+
+          document.getElementById("namaPeminjam").value = "";
+          document.getElementById("bayar").value = "";
+          document.getElementById("totalHarga").innerHTML = "Rp 0";
+          document.getElementById("kembalian").innerHTML = "Rp 0";
+
+          renderDataPeminjam();
+          renderDataCart();
+        }
+      }
+
+      // =======================================================================Render Data Kategori
+      function renderKategori() {
+        let tampilKategori, tampilKategori2;
+
+        filterKategori.forEach((itemk, idx) => {
+          tampilKategori = `<option value="">-Pilih Kategori-</option>`;
+          tampilKategori2 += `<option value="${itemk}">${itemk}</option>`;
+        });
+        document.getElementById("kategori").innerHTML =
+          tampilKategori + tampilKategori2;
+        document.getElementById("ftTbBkKategori").innerHTML =
+          tampilKategori + tampilKategori2;
+      }
+      renderKategori();
+
+      // // =======================================================================Render Tampil Data Buku
+      // function renderDataBuku()
+      // {
+      // let tampilBuku = "";
+      // dataBuku.forEach((item, idx) =>
+      // {tampilBuku += `
+      //   <tr>
+      //   <td>${idx + 1}</td>
+      //   <td>${item.namaBuku}</td>
+      //   <td align="center">${item.author}</td>
+      //   <td align="right">Rp ${item.hargaPinjam.toLocaleString()}</td>
+      //   <td align="center">${item.banyakHalaman}</td>
+      //   <td align="center">${item.stok}</td>
+      //   <td align="center">${item.category}</td>
+      //   <td align="center">${item.status}</td>
+      //   <td align="center">&nbsp;<button onclick="deleteBuku(${idx})">Delete</button>&nbsp;
+      //     <button onclick="addToCart(${idx})">Add To Cart</button>&nbsp;</td>
+      //   </tr>
+      // `});
+      // document.getElementById('tbDaftarBuku').innerHTML = tampilBuku;
+      // }
+      // renderDataBuku();
+
+      // =======================================================================Render Tampil Data Buku
+      function renderDataBuku() {
+        let ftNama = document.getElementById("ftTbBkNama").value;
+        let ftKategori = document.getElementById("ftTbBkKategori").value;
+        let ftStatus = document.getElementById("ftTbBkStatus").value;
+
+        if ((document.getElementById("ftTbBkKategori").value = ftKategori)) {
+          tampilPerKategori = dataBuku.filter(function (i) {
+            return i.category == ftKategori;
+          });
+        } else if ((document.getElementById("ftTbBkStatus").value = ftStatus)) {
+          tampilPerKategori = dataBuku.filter(function (i) {
+            return i.status == ftStatus;
+          });
+        } else if ((document.getElementById("ftTbBkNama").value = ftNama)) {
+          tampilPerKategori = dataBuku.filter(function (i) {
+            return i.namaBuku == ftNama;
+          });
+        } else {
+          tampilPerKategori = dataBuku;
+        }
+
+        let tampilBuku = "";
+        tampilPerKategori.forEach((item, idx) => {
+          tampilBuku += `
+    <tr>
+    <td>${idx + 1}</td>
+    <td>${item.namaBuku}</td>
+    <td align="center">${item.author}</td>
+    <td align="right">Rp ${item.hargaPinjam.toLocaleString()}</td>
+    <td align="center">${item.banyakHalaman}</td>
+    <td align="center">${item.stok}</td>
+    <td align="center">${item.category}</td>
+    <td align="center">${item.status}</td>
+    <td align="center">&nbsp;<button onclick="deleteBuku(${idx})">Delete</button>&nbsp;
+      <button onclick="addToCart(${idx})">Add To Cart</button>&nbsp;</td>
+    </tr>`;
+        });
+        document.getElementById("tbDaftarBuku").innerHTML = tampilBuku;
+      }
+      renderDataBuku();
+
+      // =======================================================================Render Tampil Data Cart
+      function renderDataCart() {
+        let tampilCart = "";
+        dataCart.forEach((itemc, idxc) => {
+          tampilCart += `
+      <tr>
+        <td>${itemc.cnamaBuku}</td>
+        <td>${itemc.cauthor}</td>
+        <td align="center">${itemc.ccategory}</td>
+        <td align="center">${itemc.cbanyakHalaman} Lbr</td>
+        <td align="right">Rp ${itemc.chargaPinjam}</td>
+        <td align="center">${itemc.clamaPjm}</td>
+        <td align="center">${itemc.cTanggalBalik}</td>
+        <td align="right">Rp ${itemc.cTotHarga}</td>
+        <td>&nbsp;<button onclick="deleteCart(${idxc})">Delete</button>&nbsp;</td>
+      </tr>`;
+        });
+        document.getElementById("tbDaftarCart").innerHTML = tampilCart;
+      }
+      renderDataCart();
+
+      // nanti data peminjam rubah jadi 1 lagi
+      // =======================================================================Render Tampil Data Peminjam
+      function renderDataPeminjam() {
+        let tampilDataPeminjam = "";
+        dataPinjaman.forEach((itempin, idxpin) => {
+          tampilDataPeminjam += `
+      <tr>
+      <th width="180px">${itempin.ppeminjam}</th>
+      <th width="180px">${itempin.pnamaBuku}</th>
+      <th width="150px" align="center">${itempin.pauthor}</th>
+      <th width="100px" align="center">${itempin.pbanyakHalaman} Lbr</th>
+      <th width="100px" align="center">${itempin.pTanggalPinjam}</th>
+      <th width="100px" align="center">${itempin.pLamaPinjam} Hari</th>
+      <th width="100px" align="center">${itempin.pTanggalBalik}</th>
+      <th>&nbsp;<button onclick="deletePinjaman(${idxpin})">Kembali</button>&nbsp;</th>
+      </tr>`;
+        });
+
+        document.getElementById("tbDaftarPinjam").innerHTML =
+          tampilDataPeminjam;
+      }
+      renderDataPeminjam();
+
+      //=======================================================================Kembalian
+      function kembalian() {
+        var bayar = document.getElementById("bayar").value;
+        let total = 0;
+        for (var i = 0; i < dataCart.length; i++) {
+          total += dataCart[i].cTotHarga;
+        }
+        let kembaliannya = parseInt(bayar) - parseInt(total);
+        document.getElementById("kembalian").innerHTML =
+          "Rp " + kembaliannya.toLocaleString();
+      }
+
+      //=======================================================================Menampilkan Tanggal
+      var dt = new Date();
+      document.getElementById("tampilTanggal").innerHTML =
+        dt.toLocaleDateString();
+    </script>
+  </body>
+</html>

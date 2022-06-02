@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kalkulator</title>
+  </head>
+  <body>
+    <h1>Mari Berhitung</h1>
+    <h2>Hasil :</h2>
+
+    <label for="val1">Value 1 :</label>
+    <input type="number" id="val1" />
+    <br />
+    <label for="val2">Value 2 :</label>
+    <input type="number" id="val2" />
+    <br /><br />
+
+    <button onclick="tambah()">Tambah</button>
+    <button onclick="kurang()">Kurang</button>
+    <button onclick="kali()">Kali</button>
+    <button onclick="bagi()">Bagi</button>
+
+    <script>
+      function tambah() {
+        let val1 = parseInt(document.getElementById("val1").value);
+        let val2 = parseInt(document.getElementById("val2").value);
+        document.getElementsByTagName("h2")[0].innerHTML = `Hasil ${
+          val1 + val2
+        }`;
+      }
+      function kurang() {
+        let val1 = parseInt(document.getElementById("val1").value);
+        let val2 = parseInt(document.getElementById("val2").value);
+        document.getElementsByTagName("h2")[0].innerHTML = `Hasil  ${
+          val1 - val2
+        }`;
+      }
+      function kali() {
+        let val1 = parseInt(document.getElementById("val1").value);
+        let val2 = parseInt(document.getElementById("val2").value);
+        document.getElementsByTagName("h2")[0].innerHTML = `Hasil  ${
+          val1 * val2
+        }`;
+      }
+      function bagi() {
+        let val1 = parseInt(document.getElementById("val1").value);
+        let val2 = parseInt(document.getElementById("val2").value);
+        document.getElementsByTagName("h2")[0].innerHTML = `Hasil : ${
+          val1 / val2
+        }`;
+      }
+    </script>
+  </body>
+</html>

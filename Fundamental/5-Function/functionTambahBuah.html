@@ -1,0 +1,110 @@
+<script>
+  let pilihan = 0;
+  const keranjang = [];
+  const fruits = [
+    ["Apel", 10, 10000],
+    ["Jeruk", 5, 5000],
+    ["Nanas", 8, 5000],
+    ["Manggis", 7, 5000],
+    ["Mangga", 9, 5000],
+  ];
+
+  function tampilKeranjang(keranjang) {
+    infoKeranjang = `Daftar Keanjang : \n `;
+    for (let i = 0; i < keranjang.length; i++) {
+      infoKeranjang += `${i + 1}. ${keranjang[i]} \n`;
+    }
+    return infoKeranjang;
+  }
+
+  function tampilBuah(fruits) {
+    let infoBuah = `Daftar Buah :\n`;
+    for (let i = 0; i < fruits.length; i++) {
+      infoBuah += `Buah ${fruits[i][0]} Total Stock ${fruits[i][1]} Harga Rp.${fruits[i][2]} \n`;
+    }
+    return infoBuah;
+  }
+
+  function tambahKeranjang(fruits, keranjang) {
+    let temp = [];
+    let buah = prompt(
+      `${tampilBuah(fruits)}\n\nSilahkan ketik nama buah yang ingin dibeli:`
+    );
+    for (let i = 0; i < fruits.length; i++) {
+      temp.push(fruits[i][0]);
+    }
+
+    if (!temp.includes(buah)) {
+      alert("buah tidak ditemukan");
+      // continue; // jika tidak menggunakan continue maka dia akan ngecheck task/line berikutnya diluar looping
+    } else if (!keranjang.includes(buah)) {
+      keranjang.push(buah);
+      alert(tampilKeranjang(keranjang));
+    }
+  }
+
+  function hapusKeranjang(keranjang) {
+    //menghapus buah
+
+    let deletedFruits = prompt(`${tampilKeranjang(keranjang)} \nHapus Buah:`);
+
+    if (!keranjang.includes(deletedFruits)) {
+      alert(deletedFruits + " tidak ditemukan");
+    } else {
+      keranjang.splice(keranjang.indexOf(deletedFruits), 1);
+    }
+
+    alert(tampilKeranjang(keranjang));
+  }
+
+  function checoutKeranjang(fruits, keranjang) {
+    //membeli buah
+    let qty = 0;
+    let TotalHarga = 0;
+    let show = "";
+
+    for (let i = 0; i < keranjang.length; i++) {
+      qty = prompt(`Berapa qty buah ${keranjang[i]} yang ingin dibeli?`);
+      for (let k = 0; k < fruits.length; k++) {
+        if (fruits[k].includes(keranjang[i])) {
+          let hargaSatuan = fruits[k][2];
+
+          show += `Buah ${
+            keranjang[i]
+          } qty ${qty} @Harga Rp.${hargaSatuan} Total Rp.${
+            qty * hargaSatuan
+          } \n`;
+
+          TotalHarga += qty * hargaSatuan;
+        }
+      }
+    }
+    let check = prompt(
+      `Apakah Anda Yakin Membeli \n${show}Total Harga : Rp${TotalHarga} \n1. Ya \n2. No`
+    );
+    if (check == 1) {
+      pilihan = 5;
+    }
+  }
+
+  while (pilihan != 5) {
+    //balik ke task
+    pilihan = prompt(`
+         1. Daftar Buah \n
+         2. Menambah Keranjang \n 
+         3. Menghapus Keranjang \n
+         4. Checkout Keranjang \n 
+         5. Exit`);
+
+    //menampilkan isi buah
+    if (pilihan == 1) {
+      alert(tampilBuah(fruits));
+    } else if (pilihan == 2) {
+      tambahKeranjang(fruits, keranjang);
+    } else if (pilihan == 3) {
+      hapusKeranjang(keranjang);
+    } else if (pilihan == 4) {
+      checoutKeranjang(fruits, keranjang);
+    }
+  }
+</script>
