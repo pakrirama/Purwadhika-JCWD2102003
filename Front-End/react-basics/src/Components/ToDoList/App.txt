@@ -1,0 +1,126 @@
+import "./App.css";
+// import BandMember from "./Components/BandMember/BandMember";
+// import Navbar from "./Components/Navbar";
+// import Content from "./Components/Content";
+// import About from "./Components/About";
+// import Contact from "./Components/Contact";
+
+// import Instagram from "./Components/Inatagram/Instagram";
+import { ToDoList } from "./Components/ToDoList/ToDoList.jsx";
+import { useState } from "react";
+import { Button, Input } from "reactstrap";
+
+function App() {
+  const data = [
+    {
+      tgl: new Date(),
+      action: "Membuat Database",
+      status: true,
+    },
+    {
+      tgl: new Date(),
+      action: "Menganalisa Data",
+      status: false,
+    },
+    {
+      tgl: new Date(),
+      action: "Membuat Wireframe",
+      status: true,
+    },
+    {
+      tgl: new Date(),
+      action: "Membuat UI/UX",
+      status: false,
+    },
+  ];
+
+  const [todoList, setToDoList] = useState(data);
+  const [inputValues, setInputValues] = useState({
+    todoInput: "",
+    dateInput: new Date(),
+  });
+
+  const inputHandler = (event) => {
+    const { value, name } = event.target;
+    // console.log(value);
+    // console.log(name);
+
+    setInputValues({
+      ...inputValues,
+      [name]: value,
+    });
+  };
+
+  const addTodoItem = () => {
+    const newTodoArray = [...todoList];
+    console.log(newTodoArray);
+    newTodoArray.unshift({
+      tgl: inputValues.dateInput,
+      action: inputValues.todoInput,
+      status: false,
+    });
+
+    setToDoList(newTodoArray);
+    setInputValues({ todoInput: "", dateInput: new Date() });
+  };
+
+  const deleteTodoItem = (index) => {
+    const deleteTodoArray = [...todoList];
+    deleteTodoArray.splice(index, 1);
+    console.log(todoList);
+    setToDoList(deleteTodoArray);
+  };
+
+  const toggleTodoStatus = (index) => {
+    const duplicateTodoArray = [...todoList];
+    duplicateTodoArray[index].status = !duplicateTodoArray[index].status;
+
+    setToDoList(duplicateTodoArray);
+  };
+
+  return (
+    <>
+      <div className="mb-5">
+        <div className="row mt-3 mx-2">
+          <div className="offset-3 col-5">
+            <Input
+              name="todoInput"
+              onChange={inputHandler}
+              value={inputValues.todoInput}
+              placeholder="Activity"
+            ></Input>
+            <Input
+              name="dateInput"
+              onChange={inputHandler}
+              type="date"
+              value={inputValues.dateInput}
+            ></Input>
+          </div>
+          <div className="col-2">
+            <Button onClick={addTodoItem} color="success">
+              {" "}
+              Add To do
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      {todoList.map((val, idx) => {
+        return (
+          <div key={idx}>
+            <ToDoList
+              tgl={val.tgl}
+              action={val.action}
+              status={val.status}
+              number={idx + 1}
+              deleteItem={() => deleteTodoItem(idx)}
+              toggleStatus={() => toggleTodoStatus(idx)}
+            />
+          </div>
+        );
+      })}
+    </>
+  );
+}
+
+export default App;

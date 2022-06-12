@@ -1,0 +1,64 @@
+{
+  "todos": [
+    {
+      "tgl": "2022-06-25",
+      "action": "Fakhri",
+      "status": false,
+      "id": 8
+    },
+    {
+      "tgl": "2022-06-16",
+      "action": "asdas",
+      "status": true,
+      "id": 9
+    },
+    {
+      "tgl": "2022-06-09",
+      "action": "Fetch",
+      "status": false,
+      "id": 10
+    },
+    {
+      "tgl": "2022-06-16",
+      "action": "Ramadhan",
+      "status": true,
+      "id": 11
+    },
+    {
+      "tgl": "0003-02-02",
+      "action": "Tes asdasd",
+      "status": false,
+      "id": 12
+    }
+  ],
+  "bandMember": [
+    {
+      "id": 1,
+      "name": "Jason",
+      "instrument": "Drum",
+      "datebirth": "2022-06-09",
+      "hobby": "Ngoding"
+    },
+    {
+      "id": 2,
+      "name": "Titus",
+      "instrument": "Vokal",
+      "datebirth": "2022-06-09",
+      "hobby": "Ngoding"
+    },
+    {
+      "id": 4,
+      "name": "Alex",
+      "instrument": "Vokal",
+      "datebirth": "2022-06-09",
+      "hobby": "Ngoding"
+    },
+    {
+      "id": 3,
+      "name": "Badra",
+      "instrument": "Bass",
+      "datebirth": "2022-06-09",
+      "hobby": "Ngoding"
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+// const list = [
+  //   {
+  //     username: "Fakhri",
+  //     location: "Jakarta",
+  //     image: "https://picsum.photos/600/400",
+  //     caption: "Ini Foto satu",
+  //     like: 30,
+  //   },
+  //   {
+  //     username: "Jason",
+  //     location: "Jakarta",
+  //     image: "https://picsum.photos/600/401",
+  //     caption: "Ini Foto dua",
+  //     like: 300,
+  //   },
+  //   {
+  //     username: "Anjas",
+  //     location: "Bandung",
+  //     image: "https://picsum.photos/600/402",
+  //     caption: "Ini Foto tiga",
+  //     like: 3000,
+  //   },
+  //   {
+  //     username: "Alex",
+  //     location: "Jakarta",
+  //     image:
+  //       "https://i.pinimg.com/736x/bb/11/b3/bb11b3acb3b7af28f285f7b19913bf33.jpg",
+  //     caption: "Ini Foto empat",
+  //     like: 3000,
+  //   },
+  // ];
+
+    {/* {list.map((val) => {
+        return (
+          <>
+            <Instagram
+              username={val.username}
+              location={val.location}
+              image={val.image}
+              caption={val.caption}
+              like={val.like}
+            />
+            ;
+          </>
+        );
+      })} */}

@@ -1,0 +1,88 @@
+lifecycle = merupakan sebuah siklus kehidupan 
+kehidupan seperti apa? aktifitas method yang dilakukan oleh react ketika 
+aplikasi dijalankan 
+mengapa sangat penting mengetahui lifecycle pada sebuah react?
+karena lifecycle mengatur aktifitas yang terjadi pada aplikasi yang kita buat
+
+lifecycle pada umumnya 
+1. sebelum component render
+2. setelah component render
+3. jika terjadi perubahan props/State
+4. ketika component mau dihapus
+
+
+penggunaan lifecycle bisa kita implementasikan dengan contoh menggunakan useEffect
+
+useEffect(()=> {
+   call back function 
+}, [ array dependencies] )
+
+
+  // use effect menggunakan 2 parameter,
+  // 1. call back function
+  // 2.array. yang disebut sebagai array dependencies
+
+  // penggunaan use effect seperti ini artinya ,
+  //  dia akan men-trigger pada saat component dirender pertama kali
+
+
+lifecycle pada umumnya 
+1. sebelum component render => tidak disarankan karena dapat membuat break
+ terhadap componentnya
+disebut componentWillMount
+
+2. setelah component render => disarankan menggunakan 
+componentDidmount karena jauh lebih setabil
+setelah component dirender. 
+disebut sebagai componentDidMount
+
+3. jika terjadi perubahan props/State
+4. ketika component mau dihapus
+
+componentDidMount => step by step
+1. component dirender pertama kali
+2. trigger function yang ada dimethod
+3. jika function menyebabkan perubahan state, component akan dirender ulang
+
+
+lifecycle pada umumnya 
+1. sebelum component render => tidak disarankan karena dapat membuat break terhadap componentnya
+disebut componentWillMount
+
+2. setelah component render => disarankan menggunakan componentDidmount karena jauh lebih setabil
+setelah component dirender. 
+disebut sebagai componentDidMount
+
+3. jika terjadi perubahan props/State => componentDidUpdate
+
+4. ketika component mau dihapus
+
+
+componentDidUpdate
+1. terjadi perubahan state/props
+2. state/props sudah berubah
+3. trigger function yang ada di method
+
+
+
+lifecycle pada umumnya 
+1. sebelum component render => tidak disarankan karena dapat membuat break terhadap componentnya
+disebut componentWillMount
+
+2. setelah component render => disarankan menggunakan componentDidmount karena jauh lebih setabil
+setelah component dirender. 
+disebut sebagai componentDidMount
+
+3. jika terjadi perubahan props/State => componentDidUpdate terjadi saat state berubah
+
+4. ketika component mau dihapus => componentWillUnMount terjadi saat sebuah component terhapus
+
+componentWillUnMount 
+1. component akan dihapus
+2. trigger function 
+3. component dihapus
+
+
+react router 
+
+npm-install-react-router-dom
