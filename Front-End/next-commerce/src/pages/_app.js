@@ -3,6 +3,7 @@ import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import rootReducers from "../Redux/store";
 import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
+import Cookie from "../Layout/Cookie";
 
 const store = configureStore({ reducer: rootReducers });
 
@@ -18,9 +19,11 @@ const theme = extendTheme({ colors });
 function MyApp({ Component, pageProps }) {
   return (
     <Provider store={store}>
-      <ChakraProvider theme={theme}>
-        <Component {...pageProps} />
-      </ChakraProvider>
+      <Cookie>
+        <ChakraProvider theme={theme}>
+          <Component {...pageProps} />
+        </ChakraProvider>
+      </Cookie>
     </Provider>
   );
 }

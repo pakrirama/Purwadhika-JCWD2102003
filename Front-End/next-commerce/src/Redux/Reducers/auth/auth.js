@@ -1,10 +1,10 @@
 import auth_types from "./types";
 
 const intialState = {
-  id: "",
+  id: 0,
   username: "",
   email: "",
-  password: "",
+  password: 0,
   full_name: "",
 };
 

@@ -48,7 +48,7 @@ export default function SimpleCard() {
       try {
         const res = await axiosInstance.get("users", {
           params: {
-            username: values.username,
+            email: values.email,
             // password: values.password,
           },
         });
@@ -67,6 +67,7 @@ export default function SimpleCard() {
         });
 
         jsCookie.set("user_data", JSON.stringify(userData));
+        router.push("/home");
       } catch (error) {
         alert(error);
       }
